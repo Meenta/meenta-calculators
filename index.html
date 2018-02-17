@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="../../../../favicon.ico">
@@ -44,13 +47,15 @@
 
     <div class="offset-md-2 col-md-7" ng-controller="simple">
 
-      <h1 class="mt-5">
-        Simple NGS Coverage Calculator
-      </h1>
+      <h2 class="mt-4 d-none d-md-block">
+        Simple Coverage Calculator
+      </h2>
+
       <p class="lead">
         Enter the size of the genome and your desired coverage. We will
         tell you number of sample you can pool for single flow cell.
       </p>
+      
       <div class="input-group mb-3">
         <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
         <div class="input-group-append">
@@ -86,6 +91,20 @@
           <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(3)">Illumina NovaSeq</a>.</li>
         </ul>
       </p>
+
+      <div class="mt-2 alert alert-success" role="alert">
+        <h5>Do you want updates?</h5>
+        Follow us on <a href="https://github.com/d1b1/meenta-calculators">Github</a> and <a href="https://twitter.com/meentaNGS" target="_blank">Twitter</a> to get updated
+        when we drop a new NGS tool or calculator.
+
+        <div class="mt-3">
+          <!-- Place this tag where you want the button to render. -->
+          <a class="github-button" href="https://github.com/d1b1/meenta-calculators " data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+        </div>
+
+      </div>
+
+      <br>
 
     </div>
 
@@ -123,13 +142,13 @@
 
     $scope.case = function(num) {
       if (num === 1)
-        $scope.parameters = { output: 660, genome: 3.3, coverage: 30 }
+      $scope.parameters = { output: 660, genome: 3.3, coverage: 30 }
 
       if (num === 2)
-        $scope.parameters = { output: 900, genome: 3.3, coverage: 30 }
+      $scope.parameters = { output: 900, genome: 3.3, coverage: 30 }
 
       if (num === 3)
-        $scope.parameters = { output: 800, genome: 3.3, coverage: 30 }
+      $scope.parameters = { output: 800, genome: 3.3, coverage: 30 }
     }
 
     $scope.$watch('parameters', function(newVal, oldVal) {
@@ -151,16 +170,19 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-6"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    gtag('config', 'UA-91836384-6');
+  gtag('config', 'UA-91836384-6');
   </script>
 
   <!-- Start of HubSpot Embed Code -->
   <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
   <!-- End of HubSpot Embed Code -->
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 </body>
 </html>
