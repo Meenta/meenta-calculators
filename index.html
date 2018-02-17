@@ -48,24 +48,25 @@
         Simple NGS Coverage Calculator
       </h1>
       <p class="lead">
-        Enter the size of the genome you are working with, and desired coverage.
+        Enter the size of the genome and your desired coverage. We will
+        tell you number of sample you can pool for single flow cell.
       </p>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
+        <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
         <div class="input-group-append">
           <span class="input-group-text" id="genome">Genome Size (Gb)</span>
         </div>
       </div>
 
       <div class="input-group mb-3">
-        <input type="text" class="form-control" ng-model="parameters.coverage" placeholder="Coverage (50x)" aria-label="Coverage" aria-describedby="basic-addon2">
+        <input type="number" class="form-control" ng-model="parameters.coverage" placeholder="Coverage (50x)" aria-label="Coverage" aria-describedby="basic-addon2">
         <div class="input-group-append">
           <span class="input-group-text" id="basic-addon2">Coverage in Cycles</span>
         </div>
       </div>
 
       <div class="input-group mb-3">
-        <input type="text" class="form-control" ng-model="parameters.output" placeholder="Output (Gb)" aria-label="Output (Gb)" aria-describedby="Output (Gb)">
+        <input type="number " class="form-control" ng-model="parameters.output" placeholder="Output (Gb)" aria-label="Output (Gb)" aria-describedby="Output (Gb)">
         <div class="input-group-append">
           <span class="input-group-text" id="basic-addon2">Instrument Flow cell output</span>
         </div>
@@ -110,8 +111,8 @@
   <script src="assets/js/bootstrap.min.js"></script>
 
   <script>
-  var app = angular.module("calculators", []);
-  app.controller("simple", function($scope) {
+  var app = angular.module('calculators', []);
+  app.controller('simple', function($scope) {
 
     $scope.parameters = {
       output: null,
@@ -129,7 +130,6 @@
 
       if (num === 3)
         $scope.parameters = { output: 800, genome: 3.3, coverage: 30 }
-
     }
 
     $scope.$watch('parameters', function(newVal, oldVal) {
@@ -149,19 +149,18 @@
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-5"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
+    gtag('config', 'UA-91836384-6');
+  </script>
 
-gtag('config', 'UA-91836384-5');
-</script>
-
-<!-- Start of HubSpot Embed Code -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
-<!-- End of HubSpot Embed Code -->
+  <!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
+  <!-- End of HubSpot Embed Code -->
 
 </body>
 </html>
