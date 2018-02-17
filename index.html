@@ -5,26 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="../../../../favicon.ico">
-
+  <meta name="description" content="Set of Next Generation Sequencing Calculators to help figure our your sample to flow cell requirements.">
+  <meta name="author" content="Stephan Smith">
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
   <title>NGS Coverage Calculators</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
-
-  <!-- Bootstrap core CSS -->
   <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
   <link href="assets/css/sticky-footer-navbar.css" rel="stylesheet">
 </head>
 
 <body>
 
   <header>
-    <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">
         NGS Coverage Calculators
@@ -42,7 +39,6 @@
     </nav>
   </header>
 
-  <!-- Begin page content -->
   <main role="main" class="container" ng-app="calculators">
 
     <div class="offset-md-2 col-md-7" ng-controller="simple">
@@ -55,12 +51,16 @@
         Enter the size of the genome and your desired coverage. We will
         tell you number of sample you can pool for single flow cell.
       </p>
-      
-      <div class="input-group mb-3">
+
+      <div class="input-group mb-2">
         <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
         <div class="input-group-append">
           <span class="input-group-text" id="genome">Genome Size (Gb)</span>
         </div>
+      </div>
+
+      <div class="input-group mb-2 d-none d-md-block">
+        <small class="text-muted"><i>Hint: Human Whole Genome ranges from 2.7 to 3.3 Gb.</i></small>
       </div>
 
       <div class="input-group mb-3">
