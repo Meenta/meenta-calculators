@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../../../favicon.ico">
+
+  <title>NGS Coverage Calculators</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="assets/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">
+        NGS Coverage Calculators
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Simple <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Begin page content -->
+  <main role="main" class="container" ng-app="calculators">
+
+    <div class="offset-md-2 col-md-7" ng-controller="simple">
+
+      <h1 class="mt-5">
+        Simple NGS Coverage Calculator
+      </h1>
+      <p class="lead">
+        Enter the size of the genome you are working with, and desired coverage.
+      </p>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
+        <div class="input-group-append">
+          <span class="input-group-text" id="genome">Genome Size (Gb)</span>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" ng-model="parameters.coverage" placeholder="Coverage (50x)" aria-label="Coverage" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">Coverage in Cycles</span>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" ng-model="parameters.output" placeholder="Output (Gb)" aria-label="Output (Gb)" aria-describedby="Output (Gb)">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">Instrument Flow cell output</span>
+        </div>
+      </div>
+
+      <p ng-if="parameters.numberOfSamples">
+        You can fit <strong>{{ parameters.numberOfSamples | number: 2 }}</strong> samples in a flow cell with <strong>{{ parameters.coverage }}x</strong> coverage.
+      </p>
+
+      <hr>
+
+      <p>
+        Here are come examples:
+        <ul>
+          <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(1)">Illumina MiSeq</a>.</li>
+          <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(2)">Illumina HiSeq</a>.</li>
+          <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(3)">Illumina NovaSeq</a>.</li>
+        </ul>
+      </p>
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy Meeta.io 2018</span>
+
+      <a href="https://meenta.io" class="float-right" target="_blank">
+        <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+      </a>
+
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+
+  <script>
+  var app = angular.module("calculators", []);
+  app.controller("simple", function($scope) {
+
+    $scope.parameters = {
+      output: null,
+      genome: null,
+      coverage: null,
+      numberOfSamples: null
+    }
+
+    $scope.case = function(num) {
+      if (num === 1)
+        $scope.parameters = { output: 660, genome: 3.3, coverage: 30 }
+
+      if (num === 2)
+        $scope.parameters = { output: 900, genome: 3.3, coverage: 30 }
+
+      if (num === 3)
+        $scope.parameters = { output: 800, genome: 3.3, coverage: 30 }
+
+    }
+
+    $scope.$watch('parameters', function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        console.log('New Values')
+
+        if (newVal.output && newVal.coverage && newVal.genome) {
+          var dist = newVal.coverage * newVal.genome;
+          var numberOfSamples = newVal.output / dist;
+
+          $scope.parameters.numberOfSamples = numberOfSamples;
+        }
+      }
+    }, true);
+
+  });
+  </script>
+</body>
+</html>

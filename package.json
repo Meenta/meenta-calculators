@@ -1,0 +1,23 @@
+{
+  "name": "meenta-calculator",
+  "version": "1.0.0",
+  "description": "Coverage Calculator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "coverage",
+    "lane",
+    "ngs",
+    "next",
+    "generation",
+    "sequencing"
+  ],
+  "author": "Stephan Smith",
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "yargs": "^11.0.0"
+  }
+}
