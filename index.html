@@ -163,7 +163,7 @@
 
           // Record an event
           console.log('New Params', $scope.parameters);
-          client.recordEvent('calculator', $scope.parameters);
+          window.keenClient.recordEvent('calculator', $scope.parameters);
         }
       }
     }, true);
@@ -200,6 +200,8 @@
         projectId: '5a907d1fc9e77c00018ecde5',
         writeKey: '98E0B4402EB01AE8A007DFC34CD25359D8E212515B46BE95995FFEC6B7D793B6743325098A15941D27425C38194CC37249B17B3577322B8A9797041C0125B71EDAD3DA26066E5208E0BB8B727E386989444367D1385407591211349C660C9AE7'
       });
+
+      window.keenClient = client;
 
       // Record an event
       client.recordEvent('pageviews', {
