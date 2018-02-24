@@ -162,6 +162,7 @@
           $scope.parameters.numberOfSamples = numberOfSamples;
 
           // Record an event
+          console.log('New Params', $scope.parameters);
           client.recordEvent('calculator', $scope.parameters);
         }
       }
