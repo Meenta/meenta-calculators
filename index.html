@@ -153,8 +153,6 @@
 
     $scope.$watch('parameters', function(newVal, oldVal) {
       if (newVal !== oldVal) {
-        console.log('New Values')
-
         if (newVal.output && newVal.coverage && newVal.genome) {
           var dist = newVal.coverage * newVal.genome;
           var numberOfSamples = newVal.output / dist;
