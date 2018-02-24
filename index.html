@@ -160,6 +160,9 @@
           var numberOfSamples = newVal.output / dist;
 
           $scope.parameters.numberOfSamples = numberOfSamples;
+
+          // Record an event
+          client.recordEvent('calculator', $scope.parameters);
         }
       }
     }, true);
@@ -203,6 +206,6 @@
       });
     });
   </script>
-  
+
 </body>
 </html>
