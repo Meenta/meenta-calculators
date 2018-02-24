@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="https://d26b395fwzu5fz.cloudfront.net/keen-dataviz-1.1.3.css" rel="stylesheet" />
+</head>
+<body>
+  <!-- Target DOM Node -->
+  <div id="keen-example-chart"></div>
+  <div id="keen-example-chart-2"></div>
+
+  <script src="https://d26b395fwzu5fz.cloudfront.net/keen-analysis-1.2.2.js" type="text/javascript"></script>
+  <script src="https://d26b395fwzu5fz.cloudfront.net/keen-dataviz-1.1.3.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var client = new Keen({
+      projectId: "5a907d1fc9e77c00018ecde5",
+      readKey: "5F690F0ADD1E49EE585A0FF30E966EC682D834359AD982345776AE3B52956BDE5409B0E649AF73576E618D2AB947BDC5EB912DCDCD92591685D0B60524719CC082BFEAB602E7642BA50E94D1AE883A50AC4D62F433CCC5B2EBFAF83C58BB9A3E"
+    });
+
+    var chart = new Keen.Dataviz()
+      .el("#keen-example-chart")
+      .height(240)
+      .title("Total Pageviews")
+      .type("metric")
+      .prepare();
+
+    client
+      .query("count", {
+        event_collection: "pageviews",
+        timeframe: "this_14_days",
+        timezone: "US/Eastern"
+      })
+      .then(function(res) {
+        chart.data(res).render();
+      })
+      .catch(function(err) {
+        chart.message(err.message);
+      });
+
+      //------------------------------------
+
+      var chart2 = new Keen.Dataviz()
+        .el("#keen-example-chart-2")
+        .height(240)
+        .title("Calculator Execution")
+        .type("metric")
+        .prepare();
+
+      client
+        .query("count", {
+          event_collection: "calculator",
+          timeframe: "this_1_days",
+          timezone: "US/Eastern"
+        })
+        .then(function(res) {
+          chart2.data(res).render();
+        })
+        .catch(function(err) {
+          chart2.message(err.message);
+        });
+
+  </script>
+</body>
+</html>

@@ -162,8 +162,7 @@
           $scope.parameters.numberOfSamples = numberOfSamples;
 
           // Record an event
-          console.log('New Params', $scope.parameters);
-          window.keenClient.recordEvent('calculator', $scope.parameters);
+          window.keenClient.recordEvent('calculator-parameters', $scope.parameters);
         }
       }
     }, true);
@@ -204,7 +203,7 @@
       window.keenClient = client;
 
       // Record an event
-      client.recordEvent('pageviews', {
+      client.recordEvent('calculator-pageviews', {
         title: document.title
       });
     });
