@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="Set of Next Generation Sequencing Calculators to help figure our your sample to flow cell requirements.">
+  <meta name="author" content="Stephan Smith">
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
+  <title>NGS Coverage Calculators</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/css/sticky-footer-navbar.css" rel="stylesheet">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">
+        NGS Coverage Calculators
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Simple <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main role="main" class="container" ng-app="calculators" ng-controller="advanced">
+
+    <div class="col-md-12" >
+
+      <h2 class="mt-4 d-none d-md-block">
+        Advanced Calculator
+      </h2>
+
+      <p class="lead mt-2">
+        Enter the size of the genome and your desired coverage. We will
+        tell you number of samples you can pool for single flow cell.
+      </p>
+
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="genome">Gb</span>
+            </div>
+            <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
+          </div>
+
+          <div class="input-group mb-2 d-none d-md-block">
+            <small class="text-muted"><i>Hint: Human Whole Genome ranges from 2.7 to 3.3 Gb.</i></small>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="genome"># of Samples</span>
+            </div>
+            <input type="number" class="form-control" ng-model="parameters.numOfSamples" placeholder="Number Of Samples" aria-label="Number Of Samples" aria-describedby="numOfSamples">
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon2">Duplication Tolerance</span>
+            </div>
+            <input type="number" class="form-control" ng-model="parameters.dupTolerance" placeholder="2" aria-label="Duplication Tolerance" aria-describedby="dupTolerance">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-2">
+            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Coveraged</label>
+            <select class="form-control" ng-model="parameters.coverage" aria-label="Coverage" aria-describedby="coverage">
+              <option value="10">10x</option>
+              <option value="15">15x</option>
+              <option value="20">20x</option>
+              <option value="30">30x</option>
+              <option value="50">50x</option>
+              <option value="100">100x</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon2">Lab Read Adj.</span>
+            </div>
+            <input type="number" class="form-control" id="labReadAdjustment" name="labReadAdjustment" ng-model="parameters.labReadAdjustment" placeholder="%" aria-label="Lab Read Adjustment" aria-describedby="Lab Read Adjustment">
+            <div class="input-group-append">
+              <span class="input-group-text" id="labReadAdjustment">%</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <p ng-if="parameters.numberOfSamples">
+        You can fit <strong>{{ parameters.numberOfSamples | number: 2 }}</strong> samples in a flow cell with <strong>{{ parameters.coverage }}x</strong> coverage.
+      </p>
+
+    </div>
+
+    <h4>
+      Output Required by Coverage (for {{ parameters.numOfSamples }} Samples)
+    </h4>
+
+    <small>
+      Use this table to determine that Giga based you need for sample.
+    </small>
+
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+        <tr>
+          <th width="10%" style="vertical-align: middle; text-align: center;" align="center">Coverage</th>
+          <th width="15%" style="vertical-align: middle; text-align: center;" align="center">Required Mb</th>
+          <th width="15%" style="vertical-align: middle; text-align: center;" align="center">Required Gb</th>
+          <th width="15%" style="vertical-align: middle; text-align: center;" align="center">Total Gb Required</th>
+          <th width="15%" style="vertical-align: middle; text-align: center;" align="center">Total Gb Required with Duplication</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="rec in coverageData" ng-class="{ 'table-success': parameters.coverage == rec.coverage }">
+        <td align="center">
+          {{ rec.coverage }}x
+        </td>
+        <td align="center">
+          {{ rec.requiredMb | number: 0 }} Mb
+        </td>
+        <td align="center">
+          {{ rec.requiredGb | number: 2 }} Gb
+        </td>
+        <td align="center">
+          <b>{{ rec.totalGbRequired | number: 1 }} Gb</b>
+        </td>
+        <td align="center">
+          <b>{{ rec.totalFbRequiredWithDup | number: 1 }} Gb</b>
+        </td>
+      </tr>
+    </table>
+
+    <div class="row" ng-repeat="(Name, Instrument) in Instruments">
+      <div class="col-md-12 mb-12">
+        <div ng-repeat="(mode, modeData) in Instrument.modes">
+          <h5>
+            {{ Name }} {{ mode | uppercase }} Ouptut Mode
+          </h5>
+          <table class="table table-bordered">
+            <tr>
+              <th width="15%" align="center">Advertized 106 Clusters</th>
+              <th width="15%" align="center">Advertized (Gb)</th>
+              <th width="15%" align="center">Kit Cyles</th>
+              <th width="15%" align="center">Predicted clusters per library (M)</th>
+
+              <th width="15%" align="center">Actual Clusters ({{ parameters.labReadAdjustment }}%)</th>
+              <th width="15%" align="center">Actual (Gb)</th>
+              <th width="15%" align="center">Predicted Clusters per Library</th>
+              <th width="15%" align="center">Coverage Per Transcriptome</th>
+            </tr>
+            <tr ng-repeat="(readLength, readLengthData) in modeData">
+              <td align="center">
+                {{ readLengthData.illNumClusters }}
+              </td>
+              <td align="center">
+                {{ readLengthData.illNumGb }} Gb
+              </td>
+              <td align="center">
+                {{ readLengthData.kitCyles }}
+              </td>
+              <td align="center">
+                {{ readLengthData.illPredCustersPerLibrary | number:2 }}
+              </td>
+              <td align="center" class="table-active">
+                {{ readLengthData.actualNumClusters }}
+              </td>
+              <td align="center" class="table-active">
+                {{ readLengthData.actualGb }} Gb
+              </td>
+              <td align="center" class="table-active">
+                {{ readLengthData.actualPredClustersPerLibrary | number: 3 }}
+              </td>
+              <td align="center" class="table-active">
+                {{ readLengthData.actualCoveragePerLibrary | number: 2 }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+
+    <h4>
+      Meenta Recommendations
+    </h4>
+
+    <div class="card-deck mb-3 text-center">
+      <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">
+            Closest
+            <i class="fas fa-cog pull-right" ng-click="changeAlgorithem(1)"></i>
+          </h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$3,000 <small class="text-muted">/ flow cell</small></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>21 miles away</li>
+            <li>2.1 $/Gb</li>
+            <li>Date in 17 days (ave)</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+          </ul>
+          <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(1)">
+            Start a Project
+          </button>
+        </div>
+      </div>
+      <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Fastest
+            <i class="fas fa-cog pull-right" ng-click="changeAlgorithem(2)"></i>
+          </h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$2,900 <small class="text-muted">/ flow cell</small></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>300 miles away</li>
+            <li>3.1 $/Gb</li>
+            <li>Date in 12.1 days (ave)</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+          </ul>
+          <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(2)">
+            Start a Project
+          </button>
+        </div>
+      </div>
+      <div class="card mb-4 box-shadow">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">Cheapest
+            <i class="fas fa-cog pull-right" ng-click="changeAlgorithem(3)"></i>
+          </h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title">$1,450 <small class="text-muted">/ flow cell</small></h1>
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>100 miles away</li>
+            <li>1.2 $/Gb</li>
+            <li>Date in 31 days (ave)</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+            <li>Misc data about the instrument</li>
+          </ul>
+          <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(3)">
+            Start a Project
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">&copy Meeta.io 2018</span>
+
+        <a href="https://meenta.io" class="float-right" target="_blank">
+          <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+        </a>
+
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+
+  </body>
+  </html>
