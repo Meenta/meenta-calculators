@@ -55,7 +55,7 @@
       </h4>
 
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="input-group mb-2">
 
             <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
@@ -68,7 +68,7 @@
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="input-group">
             <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
               <option>Select Read Length</option>
@@ -81,7 +81,7 @@
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="input-group">
             <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
               <option>Select Read Type</option>
@@ -91,8 +91,65 @@
           </div>
         </div>
 
+        <div class="col-md-2">
+          <div class="input-group">
+            <button class="btn btn-primary" ng-click="showApplication();">
+              Include Application
+            </button>
+          </div>
+        </div>
+
+
       </div>
 
+      <div class="alert alert-info">
+
+        <b>
+          Use these option to better filter the sequcingin options.
+        </b>
+
+        <div class="row">
+          <div class="col-md-3">
+            <div class="input-group mb-2">
+
+              <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
+                <option>Select Coverage</option>
+                <option>15x</option>
+                <option selected>20x</option>
+                <option>25x</option>
+                <option>50x</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="genome"># of Samples</span>
+              </div>
+              <input type="number" class="form-control" ng-model="parameters.numOfSamples" placeholder="Number Of Samples" aria-label="Number Of Samples" aria-describedby="numOfSamples">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="input-group">
+              <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
+                <option>Select Application</option>
+                <option>mRNA</option>
+                <option selected>DNA</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            Based on your application we recommend HiSeq 500 with 50bp or Higher.
+          </div>
+        </div>
+
+      </div>
 
       <div class="alert alert-info">
         How do you want to see he results? <a href="/table/index.html">List view</a> or with our
