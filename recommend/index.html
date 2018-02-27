@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="Set of Next Generation Sequencing Calculators to help figure our your sample to flow cell requirements.">
+  <meta name="author" content="Stephan Smith">
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
+  <title>NGS Coverage Calculators</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/css/sticky-footer-navbar.css" rel="stylesheet">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+
+<body>
+
+  <div style="background-color: #2977D2 !important;" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">
+      <img src="https://meenta.io/images/logo-small-white.png">
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3" >
+      <a class="p-2 text-white" href="/index.html">Simple</a>
+      <a class="p-2 text-white" href="/v2/index.html">Advanced</a>
+      <a class="p-2 text-white" href="/recommend/index.html">Application Landing Page</a>
+      <a class="p-2 text-white" href="/search/index.html">Search</a>
+      <a class="p-2 text-white" href="/table/index.html">Table</a>
+    </nav>
+  </div>
+
+  <main role="main" class="container" style="padding-top: 0px;"  ng-app="calculators" ng-controller="advanced">
+
+    <div class="col-md-12" >
+
+      <h2 class="mt-4 d-none d-md-block">
+        Got an mRNA Application that needs some NGS?
+      </h2>
+
+      <p class="lead mt-2">
+        Meenta is creating the first sharing economy in science. Scientists can now instantly find, book and then send samples to host sites for next-generation sequencing.
+      </p>
+
+      <br>
+
+      <h4>
+        Here are some options...
+      </h4>
+
+      <div class="row">
+        <div class="col-md-12">
+          <i>
+            Assuming 50bp on an Illumina NextSeq 500
+          </i>
+          <button class="btn btn-primary">change</button>
+        </div>
+      </div>
+      <br>
+
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h5 class="my-0 font-weight-normal">
+              Closest to you
+            </h5>
+          </div>
+          <div class="card-body">
+            <div style="height: 350px !important;">
+            <h1 class="card-title pricing-card-title">$3,000 <small style="font-size: 12px;" class="text-muted">/ flow cell</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>21 miles away</li>
+              <li>2.1 $/Gb</li>
+              <li>Date in 17 days (ave)</li>
+              <li>Requires QCPR + Qubit or FL Assay</li>
+              <li>Provides only Raw or FASTQ</li>
+              <li>Flow cells only</li>
+            </ul>
+          </div>
+            <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(1)">
+              Start a Project
+            </button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h5 class="my-0 font-weight-normal">
+              Fastest time to data
+            </h5>
+          </div>
+          <div class="card-body">
+            <div style="height: 350px !important;">
+              <h1 class="card-title pricing-card-title">$2,900 <small style="font-size: 12px;" class="text-muted">/ flow cell</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>300 miles away</li>
+                <li>3.1 $/Gb</li>
+                <li>Date in 12.1 days (ave)</li>
+                <li>Requires QCPR + Qubit</li>
+                <li>Provides Raw, FASTQ or BAM</li>
+                <li>Misc data about the instrument</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(2)">
+              Start a Project
+            </button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h5 class="my-0 font-weight-normal">
+              Lowest Price per Gb
+            </h5>
+          </div>
+          <div class="card-body">
+            <div style="height: 350px !important;">
+              <h1 class="card-title pricing-card-title">$1,450 <small style="font-size: 12px;" class="text-muted">/ flow cell</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>100 miles away</li>
+                <li>1.2 $/Gb</li>
+                <li>Date in 31 days (ave)</li>
+                <li>Requires QCPR only</li>
+                <li>Provides Raw, FASTQ or BAM</li>
+                <li>Misc data about the instrument</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(3)">
+              Start a Project
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+      <footer class="footer">
+        <div class="container">
+          <span class="text-muted">&copy Meeta.io 2018</span>
+
+          <a href="https://meenta.io" class="float-right" target="_blank">
+            <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+          </a>
+
+        </div>
+      </footer>
+
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+      <script src="/assets/js/popper.min.js"></script>
+      <script src="/assets/js/bootstrap.min.js"></script>
+      <script src="app.js"></script>
+
+    </body>
+    </html>

@@ -37,7 +37,7 @@ code {
 }
 
 .navbar-dark {
-  background: #3C92F6 url("https://meenta.io/images/outlines.svg") no-repeat
+  # background: #3C92F6 url("https://meenta.io/images/outlines.svg") no-repeat
 }
 .bg-dark {
   background-color: #2977D2 !important;

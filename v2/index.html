@@ -22,29 +22,22 @@
 </head>
 
 <body>
-
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">
-        NGS Coverage Calculators
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Simple <span class="sr-only">(current)</span></a>
-          </li>
-        </ul>
-      </div>
+  <div style="background-color: #2977D2 !important;" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">
+      <img src="https://meenta.io/images/logo-small-white.png">
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3" >
+      <a class="p-2 text-white" href="/index.html">Simple</a>
+      <a class="p-2 text-white" href="/v2/index.html">Advanced</a>
+      <a class="p-2 text-white" href="/recommend/index.html">Application Landing Page</a>
+      <a class="p-2 text-white" href="/search/index.html">Search</a>
+      <a class="p-2 text-white" href="/table/index.html">Table</a>
     </nav>
-  </header>
+  </div>
 
-  <main role="main" class="container" ng-app="calculators" ng-controller="advanced">
+  <main role="main" style="padding-top: 0px;" class="container" ng-app="calculators" ng-controller="advanced">
 
     <div class="col-md-12" >
-
       <h2 class="mt-4 d-none d-md-block">
         Advanced Calculator
       </h2>
@@ -56,24 +49,46 @@
 
       <div class="row">
         <div class="col-md-4 mb-4">
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="genome">Gb</span>
-            </div>
-            <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
-          </div>
-
-          <div class="input-group mb-2 d-none d-md-block">
-            <small class="text-muted"><i>Hint: Human Whole Genome ranges from 2.7 to 3.3 Gb.</i></small>
-          </div>
+          <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
+            <option>Select Genome</option>
+            <option>Mouse Model</option>
+            <option>Human Whole Genome</option>
+            <option>Human Exome</option>
+            <option>Human RNA</option>
+          </select>
         </div>
-
         <div class="col-md-4 mb-4">
           <div class="input-group mb-2">
             <div class="input-group-prepend">
               <span class="input-group-text" id="genome"># of Samples</span>
             </div>
             <input type="number" class="form-control" ng-model="parameters.numOfSamples" placeholder="Number Of Samples" aria-label="Number Of Samples" aria-describedby="numOfSamples">
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-2">
+            <select class="form-control" ng-model="parameters.coverage" aria-label="Coverage" aria-describedby="coverage">
+              <option value="10">10x</option>
+              <option value="15">15x</option>
+              <option value="20">20x</option>
+              <option value="30">30x</option>
+              <option value="50">50x</option>
+              <option value="100">100x</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="display: none">
+        <div class="col-md-4 mb-4">
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="genome">Gb</span>
+            </div>
+            <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
+          </div>
+          <div class="input-group mb-2 d-none d-md-block">
+            <small class="text-muted"><i>Hint: Human Whole Genome ranges from 2.7 to 3.3 Gb.</i></small>
           </div>
         </div>
 
@@ -88,22 +103,7 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <div class="input-group mb-2">
-            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Coveraged</label>
-            <select class="form-control" ng-model="parameters.coverage" aria-label="Coverage" aria-describedby="coverage">
-              <option value="10">10x</option>
-              <option value="15">15x</option>
-              <option value="20">20x</option>
-              <option value="30">30x</option>
-              <option value="50">50x</option>
-              <option value="100">100x</option>
-            </select>
-          </div>
-        </div>
         <div class="col-md-4 mb-4">
           <div class="input-group mb-2">
             <div class="input-group-prepend">
@@ -210,109 +210,27 @@
       </div>
     </div>
 
-    <br>
-    <br>
+  </main>
 
-    <h4>
-      Meenta Recommendations
-    </h4>
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy Meeta.io 2018</span>
 
-    <div class="card-deck mb-3 text-center">
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-          <h4 class="my-0 font-weight-normal">
-            Closest
-            <i class="fas fa-cog pull-right" ng-click="changeAlgorithem(1)"></i>
-          </h4>
-        </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">$3,000 <small class="text-muted">/ flow cell</small></h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>21 miles away</li>
-            <li>2.1 $/Gb</li>
-            <li>Date in 17 days (ave)</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-          </ul>
-          <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(1)">
-            Start a Project
-          </button>
-        </div>
-      </div>
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-          <h4 class="my-0 font-weight-normal">Fastest
-            <i class="fas fa-cog pull-right" ng-click="changeAlgorithem(2)"></i>
-          </h4>
-        </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">$2,900 <small class="text-muted">/ flow cell</small></h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>300 miles away</li>
-            <li>3.1 $/Gb</li>
-            <li>Date in 12.1 days (ave)</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-          </ul>
-          <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(2)">
-            Start a Project
-          </button>
-        </div>
-      </div>
-      <div class="card mb-4 box-shadow">
-        <div class="card-header">
-          <h4 class="my-0 font-weight-normal">Cheapest
-            <i class="fas fa-cog pull-right" ng-click="changeAlgorithem(3)"></i>
-          </h4>
-        </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">$1,450 <small class="text-muted">/ flow cell</small></h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>100 miles away</li>
-            <li>1.2 $/Gb</li>
-            <li>Date in 31 days (ave)</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-            <li>Misc data about the instrument</li>
-          </ul>
-          <button type="button" class="btn btn-lg btn-block btn-primary" ng-click="selectColumn(3)">
-            Start a Project
-          </button>
-        </div>
-      </div>
+      <a href="https://meenta.io" class="float-right" target="_blank">
+        <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+      </a>
 
-    </main>
+    </div>
+  </footer>
 
-    <footer class="footer">
-      <div class="container">
-        <span class="text-muted">&copy Meeta.io 2018</span>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="/assets/js/popper.min.js"></script>
+  <script src="/assets/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
 
-        <a href="https://meenta.io" class="float-right" target="_blank">
-          <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
-        </a>
-
-      </div>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="/assets/js/popper.min.js"></script>
-    <script src="/assets/js/bootstrap.min.js"></script>
-    <script src="app.js"></script>
-
-  </body>
-  </html>
+</body>
+</html>

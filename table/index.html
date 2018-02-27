@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="Set of Next Generation Sequencing Calculators to help figure our your sample to flow cell requirements.">
+  <meta name="author" content="Stephan Smith">
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
+  <title>NGS Coverage Calculators</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/css/sticky-footer-navbar.css" rel="stylesheet">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+
+<body>
+
+  <div style="background-color: #2977D2 !important;" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">
+      <img src="https://meenta.io/images/logo-small-white.png">
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3" >
+      <a class="p-2 text-white" href="/index.html">Simple</a>
+      <a class="p-2 text-white" href="/v2/index.html">Advanced</a>
+      <a class="p-2 text-white" href="/recommend/index.html">Application Landing Page</a>
+      <a class="p-2 text-white" href="/search/index.html">Search</a>
+      <a class="p-2 text-white" href="/table/index.html">Table</a>
+    </nav>
+  </div>
+
+  <main role="main" class="container" style="padding-top: 0px;"  ng-app="calculators" ng-controller="advanced">
+
+    <div class="col-md-12" >
+
+      <h2 class="mt-4 d-none d-md-block">
+        Meenta Search
+      </h2>
+
+      <p class="lead mt-2">
+        Meenta is creating the first sharing economy in science. Scientists can now instantly find, book and then send samples to host sites for next-generation sequencing.
+      </p>
+
+      <br>
+
+      <h4>
+        Select the search options:
+      </h4>
+
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group mb-2">
+            <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
+              <option>Select Instrument</option>
+              <option>MiSeq</option>
+              <option selected>HiSeq 500</option>
+              <option>HiSeq 550</option>
+              <option>NextSeq</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="input-group">
+            <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
+              <option>Select Read Length</option>
+              <option selected>50bp</option>
+              <option>75bp</option>
+              <option>100bp</option>
+              <option>150bp</option>
+              <option>200bp</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="input-group">
+            <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
+              <option>Select Read Type</option>
+              <option>Paired End</option>
+              <option selected>Single Read</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert alert-info">
+          How do you want to see he results? <a href="/table/index.html">List view</a> or with our
+          <a href="/search/index.html">recommendation</a> process?
+        </div>
+      </div>
+    </div>
+
+    <i>We found 312 options.</i>
+
+
+    <table class="table">
+      <tr>
+        <th>
+          Service Provider
+        </th>
+        <th>
+          Instrument
+        </th>
+        <th>
+          Setup
+        </th>
+        <th>
+          Price
+        </th>
+        <th>
+          Options
+        </th>
+      </tr>
+      <tr ng-repeat="n in [ 1, 2, 3, 4, 5, 6, 8, 9, 10 ]">
+        <td>
+          Broad Inst.
+        </td>
+        <td>
+          Illumina HiSeq
+        </td>
+        <td>
+          50bp PE
+        </td>
+        <td>
+          1,2000 $/flow cell
+        </td>
+        <td>
+          <button class="btn btn-primary">
+            More Details
+          </button>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy Meeta.io 2018</span>
+
+      <a href="https://meenta.io" class="float-right" target="_blank">
+        <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+      </a>
+
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="/assets/js/popper.min.js"></script>
+  <script src="/assets/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
