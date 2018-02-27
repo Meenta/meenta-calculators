@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="Set of Next Generation Sequencing Calculators to help figure our your sample to flow cell requirements.">
+  <meta name="author" content="Stephan Smith">
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-196x196.png" sizes="196x196" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
+  <title>NGS Coverage Calculators</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/css/sticky-footer-navbar.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div style="background-color: #2977D2 !important;" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+   <h5 class="my-0 mr-md-auto font-weight-normal">
+     <img src="https://meenta.io/images/logo-small-white.png">
+   </h5>
+   <nav class="my-2 my-md-0 mr-md-3" >
+     <a class="p-2 text-white" href="/index.html">Simple</a>
+     <a class="p-2 text-white" href="/v2/index.html">Advanced</a>
+     <a class="p-2 text-white" href="/recommend/index.html">Application Landing Page</a>
+     <a class="p-2 text-white" href="/search/index.html">Search</a>
+     <a class="p-2 text-white" href="/table/index.html">Table</a>
+   </nav>
+ </div>
+
+  <main role="main" style="padding-top: 0px;"  class="container" ng-app="calculators">
+
+    <div class="col-md-12" ng-controller="simple">
+
+      <h2 class="mt-4 d-none d-md-block">
+        Simple Coverage Calculator
+      </h2>
+
+      <p class="lead mt-2">
+        Enter the size of the genome and your desired coverage. We will
+        tell you number of samples you can pool for single flow cell.
+      </p>
+
+      <div class="input-group mb-2">
+        <input type="number" class="form-control" ng-model="parameters.genome" placeholder="Genome Size (Gb)" aria-label="Genome Size (Gb)" aria-describedby="genome">
+        <div class="input-group-append">
+          <span class="input-group-text" id="genome">Genome Size (Gb)</span>
+        </div>
+      </div>
+
+      <div class="input-group mb-2 d-none d-md-block">
+        <small class="text-muted"><i>Hint: Human Whole Genome ranges from 2.7 to 3.3 Gb.</i></small>
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="number" class="form-control" ng-model="parameters.coverage" placeholder="Coverage (50x)" aria-label="Coverage" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">Coverage in Cycles</span>
+        </div>
+      </div>
+
+      <div class="input-group mb-3">
+        <input type="number " class="form-control" ng-model="parameters.output" placeholder="Output (Gb)" aria-label="Output (Gb)" aria-describedby="Output (Gb)">
+        <div class="input-group-append">
+          <span class="input-group-text" id="basic-addon2">Instrument Flow cell output</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary">
+        Execute
+      </button>
+
+      <p ng-if="parameters.numberOfSamples">
+        You can fit <strong>{{ parameters.numberOfSamples | number: 2 }}</strong> samples in a flow cell with <strong>{{ parameters.coverage }}x</strong> coverage.
+      </p>
+
+      <!-- <p>
+        Here are come examples:
+        <ul>
+          <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(1)">Illumina MiSeq</a>.</li>
+          <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(2)">Illumina HiSeq</a>.</li>
+          <li>Whole Genome with 30x coverage on a <a href="" ng-click="case(3)">Illumina NovaSeq</a>.</li>
+        </ul>
+      </p> -->
+
+      <!-- <div class="mt-2 alert alert-success d-none d-md-block" role="alert">
+        <h5>Do you want updates?</h5>
+        Follow us on <a href="https://github.com/d1b1/meenta-calculators">Github</a> and <a href="https://twitter.com/meentaNGS" target="_blank">Twitter</a> to get updated
+        when we drop a new NGS tool or calculator.
+
+        <div class="mt-3">
+          <a class="github-button" href="https://github.com/d1b1/meenta-calculators " data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+        </div>
+
+      </div> -->
+
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy Meeta.io 2018</span>
+
+      <a href="https://meenta.io" class="float-right" target="_blank">
+        <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+      </a>
+
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="/assets/js/popper.min.js"></script>
+  <script src="/assets/js/bootstrap.min.js"></script>
+
+  <script>
+  var app = angular.module('calculators', []);
+  app.controller('simple', function($scope) {
+
+    $scope.parameters = {
+      output: null,
+      genome: null,
+      coverage: null,
+      numberOfSamples: null
+    }
+
+    $scope.case = function(num) {
+      if (num === 1)
+      $scope.parameters = { output: 660, genome: 3.3, coverage: 30 }
+
+      if (num === 2)
+      $scope.parameters = { output: 900, genome: 3.3, coverage: 30 }
+
+      if (num === 3)
+      $scope.parameters = { output: 800, genome: 3.3, coverage: 30 }
+    }
+
+    $scope.$watch('parameters', function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (newVal.output && newVal.coverage && newVal.genome) {
+          var dist = newVal.coverage * newVal.genome;
+          var numberOfSamples = newVal.output / dist;
+
+          $scope.parameters.numberOfSamples = numberOfSamples;
+
+          // Record an event
+          window.keenClient.recordEvent('calculator-parameters', $scope.parameters);
+        }
+      }
+    }, true);
+
+  });
+  </script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-6"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-91836384-6');
+  </script>
+
+  <!-- Start of HubSpot Embed Code -->
+  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
+  <!-- End of HubSpot Embed Code -->
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script type="text/javascript">;
+    !function(name,path,ctx){
+      var latest,prev=name!=='Keen'&&window.Keen?window.Keen:false;ctx[name]=ctx[name]||{ready:function(fn){var h=document.getElementsByTagName('head')[0],s=document.createElement('script'),w=window,loaded;s.onload=s.onerror=s.onreadystatechange=function(){if((s.readyState&&!(/^c|loade/.test(s.readyState)))||loaded){return}s.onload=s.onreadystatechange=null;loaded=1;latest=w.Keen;if(prev){w.Keen=prev}else{try{delete w.Keen}catch(e){w.Keen=void 0}}ctx[name]=latest;ctx[name].ready(fn)};s.async=1;s.src=path;h.parentNode.insertBefore(s,h)}}
+    }('KeenAsync','https://d26b395fwzu5fz.cloudfront.net/keen-tracking-1.2.1.min.js',this);
+
+    KeenAsync.ready(function(){
+      // Configure a client instance
+      // This is your actual Project ID and Write Key
+      var client = new KeenAsync({
+        projectId: '5a907d1fc9e77c00018ecde5',
+        writeKey: '98E0B4402EB01AE8A007DFC34CD25359D8E212515B46BE95995FFEC6B7D793B6743325098A15941D27425C38194CC37249B17B3577322B8A9797041C0125B71EDAD3DA26066E5208E0BB8B727E386989444367D1385407591211349C660C9AE7'
+      });
+
+      window.keenClient = client;
+
+      // Record an event
+      client.recordEvent('calculator-pageviews', {
+        title: document.title
+      });
+    });
+  </script>
+
+</body>
+</html>

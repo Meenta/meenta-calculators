@@ -2,6 +2,12 @@
 var app = angular.module('calculators', []);
 app.controller('advanced', function($scope) {
 
+  var keenClient = null;
+
+  window.keenWebAutoCollector.onload(function(){
+    keenClient = window.keenWebAutoCollector.tracker;
+  });
+
   $scope.Instruments = {
     'NextSeq': {
       name: 'NextSeq',
@@ -20,7 +26,6 @@ app.controller('advanced', function($scope) {
   };
 
   $scope.parameters = {
-    output: null,
     genome: 61.4,
     coverage: '30',
     numberOfSamples: null,
@@ -30,25 +35,6 @@ app.controller('advanced', function($scope) {
   }
 
   $scope.coverageData = [];
-
-  $scope.case = function(num) {
-    if (num === 1)
-    $scope.parameters = { output: 660, genome: 3.3, coverage: 30 }
-
-    if (num === 2)
-    $scope.parameters = { output: 900, genome: 3.3, coverage: 30 }
-
-    if (num === 3)
-    $scope.parameters = { output: 800, genome: 3.3, coverage: 30 }
-  }
-
-  $scope.changeAlgorithem = function(column) {
-    alert('Change column', column)
-  }
-
-  $scope.selectColumn = function(column) {
-    alert('Select column', column)
-  }
 
   $scope.calculateCoverage = function() {
     $scope.coverageData = [];
@@ -108,12 +94,11 @@ app.controller('advanced', function($scope) {
       $scope.calculate();
       $scope.calculateCoverage();
 
-      if (newVal.output && newVal.coverage && newVal.genome) {
-        var dist = newVal.coverage * newVal.genome;
-        var numberOfSamples = newVal.output / dist;
+      keenClient.recordEvent('calculation', {
+        ip_address: '${keen.id}',
+        parameters:  $scope.parameters
+      });
 
-        $scope.parameters.numberOfSamples = numberOfSamples;
-      }
     }
   }, true);
 
