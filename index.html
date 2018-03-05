@@ -14,6 +14,7 @@
   <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
   <title>NGS Coverage Calculator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/css/sticky-footer-navbar.css" rel="stylesheet">
@@ -39,43 +40,106 @@
 
     <div class="col-md-12">
       <h2 class="mt-4 d-none d-md-block">
-        NGS Coverage & Library Calculator
+        NGS Coverage Calculator
       </h2>
 
       <p class="lead mt-2">
-        Enter the size of the genome and your desired coverage. We will
-        tell you number of samples you can pool for single flow cell.
+        This provides the ability to evaluate the coverage needed
+        for pool libraries and recommended instruments and cycles.
       </p>
 
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <select class="form-control" aria-label="Genome Size (Gb)" aria-describedby="genome">
-            <option>Select Genome</option>
-            <option>Mouse Model</option>
-            <option>Human Whole Genome</option>
-            <option>Human Exome</option>
-            <option>Human RNA</option>
-          </select>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="genome"># of Samples</span>
-            </div>
-            <input type="number" class="form-control" ng-model="parameters.numOfSamples" placeholder="Number Of Samples" aria-label="Number Of Samples" aria-describedby="numOfSamples">
+      <form name="form" novalidate>
+        <div class="row">
+          <div class="col-md-3 mb-3 text-right">
+            Select material?
           </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="input-group mb-2">
-            <select class="form-control" ng-model="parameters.coverage" aria-label="Coverage" aria-describedby="coverage">
-              <option value="10">10x</option>
-              <option value="15">15x</option>
-              <option value="20">20x</option>
-              <option value="30">30x</option>
-              <option value="50">50x</option>
-              <option value="100">100x</option>
+          <div class="col-md-3 mb-3">
+            <select class="form-control" id="material" required name="material" aria-label="Material" ng-model="parameters.material" aria-describedby="Material">
+              <option>Select Genome</option>
+              <option value="human">Human</option>
             </select>
           </div>
+          <div class="col-md-3 mb-3 text-right">
+            Select Genome and application?
+          </div>
+          <div class="col-md-3 mb-3">
+            <select class="form-control custom-select" required id="application" name="application" ng-model="parameters.application" aria-label="Genome Size (Gb)" aria-describedby="genome">
+              <optgroup label="{{ key | uppercase }}" ng-repeat="(key, item) in applications | groupBy:'type'">
+                <option value="{{ rec.key }}" ng-repeat="rec in item">
+                  {{ rec.title }}
+                </option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 mb-3 text-right">
+            How many libraries in pool?
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="input-group mb-2">
+              <input type="number" class="form-control" required ng-model="parameters.numOfLibraries" placeholder="Number Of Libraries" aria-label="Number Of Libraries" aria-describedby="# of Libraries">
+            </div>
+          </div>
+          <div class="col-md-3 mb-3 text-right">
+            What coverage do you need?
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="input-group mb-2">
+              <select class="form-control" ng-model="parameters.coverage" required aria-label="Coverage" aria-describedby="coverage">
+                <option value="10">10x</option>
+                <option value="15">15x</option>
+                <option value="20">20x</option>
+                <option value="30">30x</option>
+                <option value="50">50x</option>
+                <option value="100">100x</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="execute()">
+              Calculate Coverage
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+      <br>
+
+      <div class="row" ng-if="recommendations">
+        <div class="col-md-12">
+          <h4>Summary:</h4>
+          <p class="alert alert-info">
+            Your pool of <b>{{ parameters.numOfLibraries }}</b> libraries for <b>{{ parameters.applicationData.title }}</b>
+            application, and a minimum coverage of <b>{{ parameters.coverage }}x</b>, needs total of <b>100Gb</b>
+            of reads. (Note a assumes {{ parameters.applicationData.requiredReads }}M reads)
+            <br>
+            <br>
+            The following instruments and cycles will meet your data requirements.
+          </p>
+
+          <h4>Possible Instruments:</h4>
+
+          <table class="table" ng-if="recommendations">
+            <tr ng-repeat="n in [1, 2, 3, 4]">
+              <td>
+                Illumina HiSeq 2500
+              </td>
+              <td>
+                Mid Output
+              </td>
+              <td>
+                50 cycles
+              </td>
+              <td>
+                31M
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
 
@@ -114,20 +178,33 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <button class="btn btn-primary">
-            Calculate Coverage
-          </button>
-        </div>
-      </div>
 
       <br>
 
       <div class="row">
         <div class="col-md-12">
+          Extra Options:
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="showCoverageTable" ng-model="parameters.settings.showCoverageTable">
+            <label class="form-check-label" for="showCoverageTable">
+              Show Coverage Table
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="showInstruments" ng-model="parameters.settings.showInstruments">
+            <label class="form-check-label" for="showInstruments">
+              Show Details
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row" ng-if="parameters.settings.showCoverageTable">
+        <div class="col-md-12">
           <h4>
-            Output Required by Coverage (for {{ parameters.numOfSamples }} Samples)
+            Output Required by Coverage (for {{ parameters.numOfLibraries }} Libraries)
           </h4>
 
           <small>
@@ -162,105 +239,109 @@
               </td>
             </tr>
           </table>
+        </div>
+      </div>
 
-          <div class="row" ng-repeat="(Name, Instrument) in Instruments">
-            <div class="col-md-12 mb-12">
-              <div ng-repeat="(mode, modeData) in Instrument.modes">
-                <h5>
-                  {{ Name }} {{ mode | uppercase }} Ouptut Mode
-                </h5>
-                <table class="table table-bordered">
-                  <tr>
-                    <th width="15%" align="center">Advertized 106 Clusters</th>
-                    <th width="15%" align="center">Advertized (Gb)</th>
-                    <th width="15%" align="center">Kit Cyles</th>
-                    <th width="15%" align="center">Predicted clusters per library (M)</th>
+      <div class="row" ng-if="parameters.settings.showInstruments">
 
-                    <th width="15%" align="center">Actual Clusters ({{ parameters.labReadAdjustment }}%)</th>
-                    <th width="15%" align="center">Actual (Gb)</th>
-                    <th width="15%" align="center">Predicted Clusters per Library</th>
-                    <th width="15%" align="center">Coverage Per Transcriptome</th>
-                  </tr>
-                  <tr ng-repeat="(readLength, readLengthData) in modeData">
-                    <td align="center">
-                      {{ readLengthData.illNumClusters }}
-                    </td>
-                    <td align="center">
-                      {{ readLengthData.illNumGb }} Gb
-                    </td>
-                    <td align="center">
-                      {{ readLengthData.kitCyles }}
-                    </td>
-                    <td align="center">
-                      {{ readLengthData.illPredCustersPerLibrary | number:2 }}
-                    </td>
-                    <td align="center" class="table-active">
-                      {{ readLengthData.actualNumClusters }}
-                    </td>
-                    <td align="center" class="table-active">
-                      {{ readLengthData.actualGb }} Gb
-                    </td>
-                    <td align="center" class="table-active">
-                      {{ readLengthData.actualPredClustersPerLibrary | number: 3 }}
-                    </td>
-                    <td align="center" class="table-active">
-                      {{ readLengthData.actualCoveragePerLibrary | number: 2 }}
-                    </td>
-                  </tr>
-                </table>
-              </div>
+        <div class="row" ng-repeat="(Name, Instrument) in Instruments">
+          <div class="col-md-12 mb-12">
+            <div ng-repeat="(mode, modeData) in Instrument.modes">
+              <h5>
+                {{ Name }} {{ mode | uppercase }} Ouptut Mode
+              </h5>
+              <table class="table table-bordered">
+                <tr>
+                  <th width="15%" align="center">Advertized 106 Clusters</th>
+                  <th width="15%" align="center">Advertized (Gb)</th>
+                  <th width="15%" align="center">Kit Cyles</th>
+                  <th width="15%" align="center">Predicted clusters per library (M)</th>
+
+                  <th width="15%" align="center">Actual Clusters ({{ parameters.labReadAdjustment }}%)</th>
+                  <th width="15%" align="center">Actual (Gb)</th>
+                  <th width="15%" align="center">Predicted Clusters per Library</th>
+                  <th width="15%" align="center">Coverage Per Transcriptome</th>
+                </tr>
+                <tr ng-repeat="(readLength, readLengthData) in modeData">
+                  <td align="center">
+                    {{ readLengthData.illNumClusters }}
+                  </td>
+                  <td align="center">
+                    {{ readLengthData.illNumGb }} Gb
+                  </td>
+                  <td align="center">
+                    {{ readLengthData.kitCyles }}
+                  </td>
+                  <td align="center">
+                    {{ readLengthData.illPredCustersPerLibrary | number:2 }}
+                  </td>
+                  <td align="center" class="table-active">
+                    {{ readLengthData.actualNumClusters }}
+                  </td>
+                  <td align="center" class="table-active">
+                    {{ readLengthData.actualGb }} Gb
+                  </td>
+                  <td align="center" class="table-active">
+                    {{ readLengthData.actualPredClustersPerLibrary | number: 3 }}
+                  </td>
+                  <td align="center" class="table-active">
+                    {{ readLengthData.actualCoveragePerLibrary | number: 2 }}
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <br>
-  </main>
+  </div>
+  <br>
+</main>
 
-  <footer class="footer">
-    <div class="container text-center">
-      <span class="text-muted">&copy Meeta.io 2018</span>
-      <a href="https://meenta.io" class="float-right" target="_blank">
-        <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
-      </a>
-      &nbsp;|&nbsp;
-      <a style="color: #000;" class="text-black" href="https://twitter.com/home?status=Check%20out%20this%20Next-Generation%20Sequencing%20Map%20from%20Meenta%20https%3A//map.meenta.io">
-        <i class="fab fa-twitter"></i> Share on Twitter @MeentaNGS
-      </a>
-      &nbsp;|&nbsp;
-      <a style="color: #000;" class="text-black" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//map.meenta.io&title=Next-Generation%20Sequencing%20Map&summary=Check%20out%20this%20Next-Generation%20Sequencing%20Map%20from%20Meenta&source=https%3A//www.meenta.io">
-        <i class="fab fa-linkedin"></i> Followup on LinkedIn
-      </a>
-    </div>
-  </footer>
+<footer class="footer">
+  <div class="container text-center">
+    <span class="text-muted">&copy Meeta.io 2018</span>
+    <a href="https://meenta.io" class="float-right" target="_blank">
+      <img src="https://meenta.io/images/favs/favicon-32x32.png" title="Meenta.io">
+    </a>
+    &nbsp;|&nbsp;
+    <a style="color: #000;" class="text-black" href="https://twitter.com/home?status=Check%20out%20this%20Next-Generation%20Sequencing%20Map%20from%20Meenta%20https%3A//map.meenta.io">
+      <i class="fab fa-twitter"></i> Share on Twitter @MeentaNGS
+    </a>
+    &nbsp;|&nbsp;
+    <a style="color: #000;" class="text-black" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A//map.meenta.io&title=Next-Generation%20Sequencing%20Map&summary=Check%20out%20this%20Next-Generation%20Sequencing%20Map%20from%20Meenta&source=https%3A//www.meenta.io">
+      <i class="fab fa-linkedin"></i> Followup on LinkedIn
+    </a>
+  </div>
+</footer>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-  <script src="/assets/js/popper.min.js"></script>
-  <script src="/assets/js/bootstrap.min.js"></script>
-  <script src="v2/app.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="/assets/js/popper.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="v2/app.js"></script>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-6"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'UA-91836384-6');
-  </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-6"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'UA-91836384-6');
+</script>
 
-  <!-- Start of HubSpot Embed Code -->
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
-  <!-- End of HubSpot Embed Code -->
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/2910074.js"></script>
+<!-- End of HubSpot Embed Code -->
 
-  <!-- Start of Crazyegg -->
-  <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0073/1006.js" async="async"></script>
-  <!-- End of Crazyegg -->
+<!-- Start of Crazyegg -->
+<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0073/1006.js" async="async"></script>
+<!-- End of Crazyegg -->
 
-  <script type="text/javascript">
-  function createKeenWebAutoCollector(){window.keenWebAutoCollector=window.KeenWebAutoCollector.create({projectId:'5a959314c9e77c00010a8d4d',writeKey:'425B6B69985AEEE2A48B8C548D73B990DD1D8F27A8C30F53C90E410D569E066FC5E7813641A66FF6535D88409E981BEA160170F6F552FFCDC867CC6685E81824C4A71654CBE43C93BF21E177E4A34C61B5537D5CD665E431D79D782EE282750F',onloadCallbacks:window.keenWebAutoCollector.onloadCallbacks}),window.keenWebAutoCollector.loaded()}function initKeenWebAutoCollector(){window.keenWebAutoCollector.domReady()?window.createKeenWebAutoCollector():document.addEventListener("readystatechange",function(){window.keenWebAutoCollector.domReady()&&window.createKeenWebAutoCollector()})}window.keenWebAutoCollector={onloadCallbacks:[],onload:function(a){this.onloadCallbacks.push(a)},domReady:function(){return["ready","complete"].indexOf(document.readyState)>-1}};
-  </script>
-  <script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script>
+<script type="text/javascript">
+function createKeenWebAutoCollector(){window.keenWebAutoCollector=window.KeenWebAutoCollector.create({projectId:'5a959314c9e77c00010a8d4d',writeKey:'425B6B69985AEEE2A48B8C548D73B990DD1D8F27A8C30F53C90E410D569E066FC5E7813641A66FF6535D88409E981BEA160170F6F552FFCDC867CC6685E81824C4A71654CBE43C93BF21E177E4A34C61B5537D5CD665E431D79D782EE282750F',onloadCallbacks:window.keenWebAutoCollector.onloadCallbacks}),window.keenWebAutoCollector.loaded()}function initKeenWebAutoCollector(){window.keenWebAutoCollector.domReady()?window.createKeenWebAutoCollector():document.addEventListener("readystatechange",function(){window.keenWebAutoCollector.domReady()&&window.createKeenWebAutoCollector()})}window.keenWebAutoCollector={onloadCallbacks:[],onload:function(a){this.onloadCallbacks.push(a)},domReady:function(){return["ready","complete"].indexOf(document.readyState)>-1}};
+</script>
+<script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script>
 
 </body>
 </html>
