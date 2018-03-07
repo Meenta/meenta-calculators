@@ -52,41 +52,46 @@
 
       <form name="form" novalidate>
         <div class="row">
-          <div class="col-md-3 mb-3 text-right">
+          <div class="col-md-4 mb-3 text-right">
             Select material?
           </div>
           <div class="col-md-3 mb-3">
             <select class="form-control" id="material" required name="material" aria-label="Material" ng-model="parameters.material" aria-describedby="Material">
-              <option>Select Genome</option>
+              <option value="">Select Spec</option>
               <option value="human">Human</option>
             </select>
           </div>
-          <div class="col-md-3 mb-3 text-right">
-            Select Genome and application?
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3 text-right">
+            Application?
           </div>
-          <div class="col-md-3 mb-3">
+          <div class="col-md-5 mb-3">
             <select class="form-control custom-select" required id="application" name="application" ng-model="parameters.application" aria-label="Genome Size (Gb)" aria-describedby="genome">
+              <option value="">Select Material and Application</option>
               <optgroup label="{{ key | uppercase }}" ng-repeat="(key, item) in applications | groupBy:'type'">
                 <option value="{{ rec.key }}" ng-repeat="rec in item">
-                  {{ rec.title }}
+                  {{ rec.title }} (min reads: {{ rec.requiredReads }}{{ rec.units }})
                 </option>
               </optgroup>
             </select>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3 mb-3 text-right">
-            How many libraries in pool?
+          <div class="col-md-4 mb-3 text-right">
+            Number libraries?
           </div>
-          <div class="col-md-3 mb-3">
+          <div class="col-md-2 mb-3">
             <div class="input-group mb-2">
               <input type="number" class="form-control" required ng-model="parameters.numOfLibraries" placeholder="Number Of Libraries" aria-label="Number Of Libraries" aria-describedby="# of Libraries">
             </div>
           </div>
-          <div class="col-md-3 mb-3 text-right">
+        </div>
+        <div class="row">
+          <div class="offset-md-1 col-md-3 mb-3 text-right">
             What coverage do you need?
           </div>
-          <div class="col-md-3 mb-3">
+          <div class="col-md-2 mb-3">
             <div class="input-group mb-2">
               <select class="form-control" ng-model="parameters.coverage" required aria-label="Coverage" aria-describedby="coverage">
                 <option value="10">10x</option>
@@ -101,12 +106,12 @@
         </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <button class="btn btn-primary" ng-disabled="form.$invalid" ng-click="execute()">
               Calculate Coverage
             </button>
           </div>
-          <div class="col-md-6 text-right">
+          <div class="col-md-9 text-right">
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="showCoverageTable" ng-model="parameters.settings.showCoverageTable">
               <label class="form-check-label" for="showCoverageTable">
@@ -118,7 +123,23 @@
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="showInstruments" ng-model="parameters.settings.showInstruments">
               <label class="form-check-label" for="showInstruments">
-                Show Details
+                Show Instrument Details
+              </label>
+            </div>
+            &nbsp;
+            &nbsp;
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="showInstruments" ng-model="parameters.settings.showIlluminaSpecifications">
+              <label class="form-check-label" for="showInstruments">
+                Show Illumina Specs
+              </label>
+            </div>
+            &nbsp;
+            &nbsp;
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="showAllResults" ng-model="parameters.settings.showAllResults">
+              <label class="form-check-label" for="showAllResults">
+                Show All Results
               </label>
             </div>
           </div>
@@ -138,24 +159,67 @@
             The following instruments and cycles will meet your data requirements.
           </p>
 
-          <h4>Possible Instruments:</h4>
+          <div ng-if="parameters.settings.showInstruments">
+            <div ng-repeat="(instrumentKey, instrument) in tmpInstruments">
+                <h5>
+                  {{ instrumentKey | instrumentName }}
+                </h5>
+                <table class="table table-striped">
+                  <tr>
+                    <th width="15%" align="center">Mode</th>
+                    <th width="15%" align="center" ng-if="parameters.settings.showIlluminaSpecifications">Ill Reads</th>
+                    <th width="15%" align="center" ng-if="parameters.settings.showIlluminaSpecifications">Ill. Output</th>
+                    <th width="15%" align="center" ng-if="parameters.settings.showIlluminaSpecifications">Predicted clusters per library (M)</th>
+                    <th width="15%" align="center">Clusters <i class="fas fa-info-circle"></i></th>
+                    <th width="15%" align="center">Output <i class="fas fa-info-circle"></i></th>
+                    <th width="15%" align="center">Clusters per Library <i class="fas fa-info-circle"></i></th>
+                    <th width="15%" align="center">
+                      Effective Coverage <i class="fas fa-info-circle"></i>
+                    </th>
+                  </tr>
+                  <tr ng-repeat="i in instrument" ng-if="i.output.isViable || parameters.settings.showAllResults" ng-class="{ 'table-success': parameters.coverage <= i.output.coveragePerGenome }">
+                    <td align="center">
+                      {{ i.data.mode | modeName }}
+                    </td>
 
-          <table class="table" ng-if="recommendations">
-            <tr ng-repeat="n in [1, 2, 3, 4]">
-              <td>
-                Illumina HiSeq 2500
-              </td>
-              <td>
-                Mid Output
-              </td>
-              <td>
-                50 cycles
-              </td>
-              <td>
-                31M
-              </td>
-            </tr>
-          </table>
+                    <td align="center" ng-if="parameters.settings.showIlluminaSpecifications">
+                      {{ i.data.reads }}
+                    </td>
+                    <td align="center" ng-if="parameters.settings.showIlluminaSpecifications">
+                      {{ i.data.output }}
+                    </td>
+                    <td align="center" ng-if="parameters.settings.showIlluminaSpecifications">
+                      {{ i.output.readsPerLibary * 1000 | number:2 }} M
+                    </td>
+                    <td>
+                      {{ i.output.actualReads * 1000 | number: 2 }} M
+                    </td>
+                    <td>
+                      {{ i.output.actualOutput }} Gb
+                    </td>
+                    <td>
+                      {{ i.output.predReads * 1000 | number: 2 }} M
+                    </td>
+                    <!-- <td>
+                      {{ i.output.outputPerGenome | number: 2 }}
+                    </td> -->
+                    <!-- <td>
+                      {{ i.output.outputPerGenomeWithDedup | number: 2 }}
+                    </td> -->
+                    <td align="center" ng-class="{ 'table-success': i.output.isViable }">
+                      {{ i.output.coveragePerGenome | number: 2 }}x
+                    </td>
+                  </tr>
+                </table>
+            </div>
+          </div>
+          <i ng-if="parameters.labReadAdjustment === 1">
+            Notes: Reads and Output using Illumina specifications.
+          </i>
+          <i ng-if="parameters.labReadAdjustment !== 1">
+            Notes: Reads and Output are {{ parameters.labReadAdjustment }}% of Illumina specifications.
+          </i>
+
         </div>
       </div>
 
@@ -219,7 +283,7 @@
             </thead>
             <tr ng-repeat="rec in coverageData" ng-class="{ 'table-success': parameters.coverage == rec.coverage }">
               <td align="center">
-                {{ rec.coverage }}x
+                {{ rec.coverage }}X
               </td>
               <td align="center">
                 {{ rec.requiredMb | number: 0 }} Mb
@@ -238,57 +302,6 @@
         </div>
       </div>
 
-      <div class="row" ng-if="parameters.settings.showInstruments">
-
-        <div class="row" ng-repeat="(Name, Instrument) in Instruments">
-          <div class="col-md-12 mb-12">
-            <div ng-repeat="(mode, modeData) in Instrument.modes">
-              <h5>
-                {{ Name }} {{ mode | uppercase }} Ouptut Mode
-              </h5>
-              <table class="table table-bordered">
-                <tr>
-                  <th width="15%" align="center">Advertized 106 Clusters</th>
-                  <th width="15%" align="center">Advertized (Gb)</th>
-                  <th width="15%" align="center">Kit Cyles</th>
-                  <th width="15%" align="center">Predicted clusters per library (M)</th>
-
-                  <th width="15%" align="center">Actual Clusters ({{ parameters.labReadAdjustment }}%)</th>
-                  <th width="15%" align="center">Actual (Gb)</th>
-                  <th width="15%" align="center">Predicted Clusters per Library</th>
-                  <th width="15%" align="center">Coverage Per Transcriptome</th>
-                </tr>
-                <tr ng-repeat="(readLength, readLengthData) in modeData">
-                  <td align="center">
-                    {{ readLengthData.illNumClusters }}
-                  </td>
-                  <td align="center">
-                    {{ readLengthData.illNumGb }} Gb
-                  </td>
-                  <td align="center">
-                    {{ readLengthData.kitCyles }}
-                  </td>
-                  <td align="center">
-                    {{ readLengthData.illPredCustersPerLibrary | number:2 }}
-                  </td>
-                  <td align="center" class="table-active">
-                    {{ readLengthData.actualNumClusters }}
-                  </td>
-                  <td align="center" class="table-active">
-                    {{ readLengthData.actualGb }} Gb
-                  </td>
-                  <td align="center" class="table-active">
-                    {{ readLengthData.actualPredClustersPerLibrary | number: 3 }}
-                  </td>
-                  <td align="center" class="table-active">
-                    {{ readLengthData.actualCoveragePerLibrary | number: 2 }}
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <br>
@@ -334,10 +347,10 @@ gtag('config', 'UA-91836384-6');
 <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0073/1006.js" async="async"></script>
 <!-- End of Crazyegg -->
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 function createKeenWebAutoCollector(){window.keenWebAutoCollector=window.KeenWebAutoCollector.create({projectId:'5a959314c9e77c00010a8d4d',writeKey:'425B6B69985AEEE2A48B8C548D73B990DD1D8F27A8C30F53C90E410D569E066FC5E7813641A66FF6535D88409E981BEA160170F6F552FFCDC867CC6685E81824C4A71654CBE43C93BF21E177E4A34C61B5537D5CD665E431D79D782EE282750F',onloadCallbacks:window.keenWebAutoCollector.onloadCallbacks}),window.keenWebAutoCollector.loaded()}function initKeenWebAutoCollector(){window.keenWebAutoCollector.domReady()?window.createKeenWebAutoCollector():document.addEventListener("readystatechange",function(){window.keenWebAutoCollector.domReady()&&window.createKeenWebAutoCollector()})}window.keenWebAutoCollector={onloadCallbacks:[],onload:function(a){this.onloadCallbacks.push(a)},domReady:function(){return["ready","complete"].indexOf(document.readyState)>-1}};
 </script>
-<script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script>
+<script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script> -->
 
 </body>
 </html>
