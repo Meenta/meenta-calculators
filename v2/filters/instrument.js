@@ -11,6 +11,9 @@ app.filter('instrumentName', function() {
       case 'hiseq-2000':
         out = 'HiSeq 2000';
         break;
+      case 'hiseq-4000':
+        out = "HiSeq 4000";
+        break;
       case 'hiseq-1500':
         out = 'HiSeq 1500';
         break;

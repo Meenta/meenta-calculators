@@ -1,0 +1,12 @@
+app.config(['tbkKeenConfigProvider', function(tbkKeenConfigProvider) {
+
+  var config = {
+    projectId: "5a95669546e0fb0001ad5aab",
+    writeKey:  "1C01DEE750124F8E4538C7EFE1A771819B571E9B76A9815644E11B68E41871CE8F04DF54C92264D8968C388318638D91784C0423372CD3EE9B34E3CDE7527939039C346AAEB0D985871FB4B2FC515F0009E46536823A39E4C2EFEE9A4A78C73F",
+  };
+
+  tbkKeenConfigProvider
+    .projectId(config.projectId)
+    .writeKey(config.writeKey)
+
+}]);

@@ -1,0 +1,29 @@
+{
+  "generator-angularjs-library": {
+    "props": {
+      "author": {
+        "name": "tbk",
+        "email": "theborakompanioni+angular-keenio@gmail.com"
+      },
+      "libraryName": {
+        "original": "angular-keenio",
+        "camelized": "angularKeenio",
+        "dasherized": "angular-keenio",
+        "slugified": "angular-keenio",
+        "parts": [
+          "angular",
+          "keenio"
+        ]
+      },
+      "includeModuleDirectives": true,
+      "includeModuleFilters": false,
+      "includeModuleServices": true,
+      "includeAngularModuleResource": false,
+      "includeAngularModuleCookies": false,
+      "includeAngularModuleSanitize": false,
+      "librarySrcDirectory": "src/angular-keenio",
+      "libraryUnitTestDirectory": "test/unit/angular-keenio",
+      "libraryUnitE2eDirectory": "test/e2e/angular-keenio"
+    }
+  }
+}

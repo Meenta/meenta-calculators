@@ -2,7 +2,7 @@ app.directive('calculatorForm', function() {
   return {
     scope: false,
     controller: [ '$rootScope', '$scope', 'applications', function( $rootScope, $scope, applications ) {
-
+ 
       $scope.applications = applications;
 
       $scope.$watch('parameters', function(newVal, oldVal) {

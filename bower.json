@@ -1,0 +1,36 @@
+{
+  "name": "meenta-calculator",
+  "description": "Coverage Calculator",
+  "main": "index.js",
+  "authors": [
+    "Stephan Smith"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "coverage",
+    "lane",
+    "ngs",
+    "next",
+    "generation",
+    "sequencing"
+  ],
+  "homepage": "https://github.com/meenta/meenta-calculators",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "^1.6.9",
+    "angular-keenio": "^0.2.0",
+    "angular-filter": "^0.5.17",
+    "angular-bootstrap": "~0.14.3",
+    "angular-ui-router": "^1.0.15",
+    "angularfire": "^2.3.0",
+    "underscore": "^1.8.3",
+    "firebase": "^3.7.2"
+  }
+}

@@ -1,1 +1,23 @@
-var app = angular.module('calculators', [ 'angular.filter', 'ui.router' ]);
+var app = angular.module('calculators', [
+  'ngAnimate',
+  'angular.filter',
+  'ui.router',
+  'angular-keenio',
+  'ui.bootstrap'
+]);
+
+app.run([ 'Auth', '$rootScope', function(auth, $rootScope) {
+
+  $rootScope.isLoggedIn = false;
+
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      $rootScope.userInfo = user;
+      $rootScope.isLoggedIn = true;
+      console.log("Welcome UID:" + user.uid);
+    } else {
+      $rootScope.isLoggedIn = false;
+    }
+  });
+
+}])

@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js:
+- '0.12'
+env:
+  global:
+  - GH_PAGES_REF: github.com/theborakompanioni/angular-keenio.git
+  - secure: fh0jYSyi818T8GIuYJ8vLg1WRL1hBaxUH2wWv+Y2B3EGkqECXt6tJnfoFoD71Xj4c3L3d+N3BB/NdShso0UVZGjbIp9EXCplJ+EuYheUMHDc7RKFXJ2W6pNZU/F32n9kwrTb2wDJW5VpocNTMCxJ+Utzp0ZG5AfXknGNsJ+qAFI=
+before_script:
+- npm install -g bower
+- npm install -g gulp-cli
+- npm install -g karma-cli
+- bower install
+- gulp build
+after_script:
+- sh deploy-ghpages.sh

@@ -1,16 +1,16 @@
 app.directive('calculatorWorkspace', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'applications', 'instruments', 'Sequence', '$timeout', function( $rootScope, $scope, $stateParams, $utils, applications, instrumentList, Sequence, $timeout ) {
+    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
 
       // Set the parameters.
       $scope.parameters = {
         material: $stateParams.material || 'human',
-        genome: 61.4,
+        genome: 0,
         application: $stateParams.application || 'k-genome',
         coverage: '30',
         numOfLibraries: 40,
-        labReadAdjustment: 1,
+        labReadAdjustment: 0.9,
         dupTolerance: 0.2,
         summary: null
       }
@@ -51,12 +51,20 @@ app.directive('calculatorWorkspace', function() {
         // Filter for those that meet the experitnal requirements.
         results = _.where(results, { valid: true });
 
+        // Calc the requiredGb for this application and number of libraries.
         var requiredReadsGb = $utils.toGb(parameters.applicationData.requiredReads);
 
+        // setup the summary.
         $scope.parameters.summary = {
           outputNeeded: requiredReadsGb * parameters.numOfLibraries,
           numOfAvlSolutions: results.length
         };
+
+        // log the results to keen.s
+        angularKeenClient.addEvent('calculation', {
+          ip_address: '${keen.id}',
+          parameters:  $scope.parameters
+        });
 
         $timeout(function() {
           $scope.$emit('newResults', results)
@@ -71,14 +79,10 @@ app.directive('calculatorWorkspace', function() {
 		      newVal.genome = $utils.toGb(newVal.applicationData.requiredReads);
 
 		      $scope.calculate(newVal);
-		      // keenClient.recordEvent('calculation', {
-		      //   ip_address: '${keen.id}',
-		      //   parameters:  $scope.parameters
-		      // });
 		    }
 		  }, true);
 
-      console.log('ddd', $scope.parameters);
+      // Start the calculator.
       $scope.calculate($scope.parameters);
 
     }],
@@ -88,9 +92,9 @@ app.directive('calculatorWorkspace', function() {
       </h2>
 
       <p class="lead mt-2">
-        This provides the ability to evaluate the coverage needed
-        for pool libraries for different applications. It provides
-        a summary and a list of instruments and cycles capible of
+        This calculator provides tools to determine the coverage needed
+        for pool libraries for different applications on Illumina instruments.
+        It provides a summary and a list of instruments and modes capable of
         providing the require per library reads.
       </p>
 

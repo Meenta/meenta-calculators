@@ -13,14 +13,14 @@
   <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-16x16.png" sizes="16x16" />
   <link rel="icon" type="image/png" href="https://meenta.io/images/favs/favicon-128.png" sizes="128x128" />
   <title>NGS Coverage Calculator</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
   <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/css/sticky-footer-navbar.css" rel="stylesheet">
   <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
+
+<style>
+.modal-backdrop { opacity:0.5 !important; }
+</style>
 
 <body>
   <div style="background-color: #2977D2 !important;" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
@@ -30,21 +30,18 @@
       </a>
     </h5>
     <nav class="my-2 my-md-0 mr-md-3" >
-      <a class="btn btn-light btn-sm" href="/index.html">Calculator</a>
-      <a class="btn btn-light btn-sm" href="/widget.html">Widget</a>
+      <!-- <a class="btn btn-light btn-sm" href="/index.html">Calculator</a>
+      <a class="btn btn-light btn-sm" href="/widget.html">Widget</a> -->
       <a class="btn btn-light btn-sm" href="https://map.meenta.io?utm_source=calculator&utm_medium=header" target="_blank">Our NGS Map
         &nbsp;
         <i class="fas fa-arrow-right"></i>
       </a>
     </nav>
   </div>
-
-  <main role="main" style="padding-top: 0px;" class="container" ng-app="calculators">
-
+  <main role="main" style="padding-top: 0px;" class="container">
     <div class="col-md-12">
-
+      <!-- View for the Page. -->
       <div ui-view></div>
-
     </div>
   </div>
   <br>
@@ -71,8 +68,15 @@
 <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 <script src="/assets/js/popper.min.js"></script>
 <script src="/assets/js/bootstrap.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 <script src="dist/app.js"></script>
+
+<script>
+  angular.element(document).ready(function () {
+    Keen.ready(function () {
+      angular.bootstrap(document, ['calculators']);
+    });
+  });
+</script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91836384-6"></script>
@@ -90,11 +94,6 @@ gtag('config', 'UA-91836384-6');
 <!-- Start of Crazyegg -->
 <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0073/1006.js" async="async"></script>
 <!-- End of Crazyegg -->
-
-<!-- <script type="text/javascript">
-function createKeenWebAutoCollector(){window.keenWebAutoCollector=window.KeenWebAutoCollector.create({projectId:'5a959314c9e77c00010a8d4d',writeKey:'425B6B69985AEEE2A48B8C548D73B990DD1D8F27A8C30F53C90E410D569E066FC5E7813641A66FF6535D88409E981BEA160170F6F552FFCDC867CC6685E81824C4A71654CBE43C93BF21E177E4A34C61B5537D5CD665E431D79D782EE282750F',onloadCallbacks:window.keenWebAutoCollector.onloadCallbacks}),window.keenWebAutoCollector.loaded()}function initKeenWebAutoCollector(){window.keenWebAutoCollector.domReady()?window.createKeenWebAutoCollector():document.addEventListener("readystatechange",function(){window.keenWebAutoCollector.domReady()&&window.createKeenWebAutoCollector()})}window.keenWebAutoCollector={onloadCallbacks:[],onload:function(a){this.onloadCallbacks.push(a)},domReady:function(){return["ready","complete"].indexOf(document.readyState)>-1}};
-</script>
-<script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script> -->
 
 </body>
 </html>

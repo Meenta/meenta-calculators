@@ -14,7 +14,8 @@ app.directive('summary', function() {
         <br>
         <span ng-if="parameters.summary.numOfAvlSolutions > 0">
           There are <b>{{ parameters.summary.numOfAvlSolutions }}</b> possible sequencing solutions
-          which may meet you experimental needs.
+          which may meet you experimental needs. These options are sort by the 'effective coverage'
+          to best help you find the minimum required.
         </span>
 
         <span ng-if="parameters.summary.numOfAvlSolutions == 0">
