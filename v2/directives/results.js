@@ -45,17 +45,8 @@ app.directive('results', function() {
           <td>
             {{ i.data.mode | modeName }}
           </td>
-          <td align="center" ng-if="parameters.settings.showIlluminaSpecifications">
+          <td align="center" title="Reads: {{ i.data.reads }}">
             {{ i.data.reads }}
-          </td>
-          <td align="center" ng-if="parameters.settings.showIlluminaSpecifications">
-            {{ i.data.output | number: 1 }}
-          </td>
-          <td align="center" ng-if="parameters.settings.showIlluminaSpecifications">
-            {{ i.output.readsPerLibary * 1000 | number:2 }} M
-          </td>
-          <td align="center">
-            {{ i.output.actualReads * 1000 | number: 2 }} M
           </td>
           <td align="center">
             {{ i.output.actualOutput | number: 2 }} Gb

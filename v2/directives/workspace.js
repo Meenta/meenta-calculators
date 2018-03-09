@@ -56,7 +56,7 @@ app.directive('calculatorWorkspace', function() {
 
         // setup the summary.
         $scope.parameters.summary = {
-          outputNeeded: requiredReadsGb * parameters.numOfLibraries,
+          outputNeeded: requiredReadsGb * parameters.coverage,
           numOfAvlSolutions: results.length
         };
 
