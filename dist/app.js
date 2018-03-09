@@ -79029,9 +79029,11 @@ app.directive('results', function() {
          already have an account with Meenta, sign-in.
          <br>
          <br>
-         <a ng-click="login()"><u>Sign-in</u></a>
+         <h4 class="text-center">
+         <a ng-click="login()"><u>Sign-in to your account</u></a>
          or
-         <a ng-click="login()"><u>Join Newsletter</u></a>
+         <a ng-click="login()"><u>Join our Newsletter</u></a>
+         </h4>
       </div>
 
       <i ng-if="parameters.labReadAdjustment === 1">
