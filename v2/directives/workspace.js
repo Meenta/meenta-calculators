@@ -103,7 +103,7 @@ app.directive('calculatorWorkspace', function() {
       <br>
       <div class="row" kng-if="recommendations">
         <div class="col-md-12">
-          <h4>Summary:</h4>
+          <h5>Summary</h5>
           <summary></summary>
           <results></results>
       </div>

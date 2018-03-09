@@ -78737,8 +78737,8 @@ app.constant('instruments', {
   //   { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb" }
   // ],
   "hiSeq-2000": [
-    { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb" },
-    { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb" }
+    { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb", "id": "-KV_kL3Tk68ohatRRoKU" },
+    { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb", "id": "-KV_kL3Tk68ohatRRoKU" }
   ],
   // "hiSeq-1500": [
   //   { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb" },
@@ -78747,35 +78747,35 @@ app.constant('instruments', {
   //   { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb" }
   // ],
   "hiSeq-2500": [
-    { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb" },
-    { "mode": "rapid", "reads": "300 M", "output": "45 Gb" },
-    { "mode": "rapidv2", "reads": "150.696 M", "output": "22.6044 Gb" },
-    { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb" }
+    { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
+    { "mode": "rapid", "reads": "300 M", "output": "45 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
+    { "mode": "rapidv2", "reads": "150.696 M", "output": "22.6044 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
+    { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" }
   ],
   "hiSeq-3000": [
-    { "mode": "standard", "reads": "3.125 M", "output": "46.875 Gb" },
+    { "mode": "standard", "reads": "3.125 M", "output": "46.875 Gb", "id": "-KV_kiZAhebKVoNqWvHt" },
   ],
   "hiSeq-4000": [
-    { "mode": "standard", "reads": "3.125 M", "output": "46.875 Gb" },
+    { "mode": "standard", "reads": "3.125 M", "output": "46.875 Gb", "id": "-KV_kYsPgSRBUPcJI8BD" },
   ],
   "miSeq": [
-    { "mode": "v2", "reads": "15 M", "output": "2.25 Gb" },
-    { "mode": "v3", "reads": "25 M", "output": "2.75 Gb" },
-    { "mode": "microv2", "reads": "4 M", "output": "600 M" },
-    { "mode": "nanov2", "reads": "1 M", "output": "150 M" }
+    { "mode": "v2", "reads": "15 M", "output": "2.25 Gb", "id": "-Ka-nhDZDhYaFVADMNn8" },
+    { "mode": "v3", "reads": "25 M", "output": "2.75 Gb", "id": "-Ka-nhDZDhYaFVADMNn8" },
+    { "mode": "microv2", "reads": "4 M", "output": "600 M", "id": "-Ka-nhDZDhYaFVADMNn8" },
+    { "mode": "nanov2", "reads": "1 M", "output": "150 M", "id": "-Ka-nhDZDhYaFVADMNn8" }
   ],
   "nextSeq-500": [
-    { "mode": "highOutput", "reads": "400 M", "output": "60 Gb" },
-    { "mode": "midOutput", "reads": "130 M", "output": "19.5 Gb" }
+    { "mode": "highOutput", "reads": "400 M", "output": "60 Gb", "id": "-Kgl9rGuMzNGUDVdn8bW" },
+    { "mode": "midOutput", "reads": "130 M", "output": "19.5 Gb", "id": "-Kgl9rGuMzNGUDVdn8bW" }
   ],
   "nextSeq-550": [
-    { "mode": "highOutput", "reads": "400 M", "output": "60 Gb" },
-    { "mode": "midOutput", "reads": "130 M", "output": "19.5 Gb" }
+    { "mode": "highOutput", "reads": "400 M", "output": "60 Gb", "id": "-Kbjp7NKOGYlEL4ItGXE" },
+    { "mode": "midOutput", "reads": "130 M", "output": "19.5 Gb", "id": "-Kbjp7NKOGYlEL4ItGXE" }
   ],
   "novaSeq-5000": [
-    { "mode": "s1", "reads": "3.3 Gb", "output": "495 Gb" },
-    { "mode": "s2", "reads": "3.3 Gb", "output": "495 Gb" },
-    { "mode": "s3", "reads": "3.3 Gb", "output": "495 Gb" }
+    { "mode": "s1", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" },
+    { "mode": "s2", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" },
+    { "mode": "s3", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" }
   ]
 });
 
@@ -78986,6 +78986,9 @@ app.directive('results', function() {
           <th width="15%" style="text-align: center" align="center">
             Effective Coverage
           </th>
+          <th>
+            &nbsp;
+          </th>
         </tr>
         <tr ng-if="$index < allowedResults" ng-repeat="i in results | orderBy: '+output.coveragePerGenome'">
           <td>
@@ -79005,6 +79008,11 @@ app.directive('results', function() {
           </td>
           <td align="center">
             {{ i.output.coveragePerGenome | number: 0 }}x
+          </td>
+          <td align="center">
+            <button class="btn btn-outline-secondary" ng-click="resultDetail(i)">
+              <i class="fa fa-info-circle"></i>
+            </button>
           </td>
         </tr>
       </table>
@@ -79050,7 +79058,7 @@ app.directive('summary', function() {
     template: `
       <p ng-if="parameters.summary" class="alert alert-secondary">
         A pool of <b>{{ parameters.numOfLibraries }}</b> libraries for <b>{{ parameters.applicationData.title }}</b>
-        application with a minimum desired coverage of <b>{{ parameters.coverage }}x/library</b>,
+        with a desired coverage of <b>{{ parameters.coverage }}x/library</b>,
         needs approx. <b>{{ parameters.summary.outputNeeded | number: 3 }} Gb</b> of data.
         (Note: this application typically needs {{ parameters.applicationData.requiredReads }} per library.)
         <br>
@@ -79175,7 +79183,7 @@ app.directive('calculatorWorkspace', function() {
       <br>
       <div class="row" kng-if="recommendations">
         <div class="col-md-12">
-          <h4>Summary:</h4>
+          <h5>Summary</h5>
           <summary></summary>
           <results></results>
       </div>
@@ -79464,6 +79472,114 @@ app.run(['$uibModal', '$rootScope', function($uibModal, $rootScope) {
 						</div>
 					</div>
 					<br>
+				</div>
+			</div>
+			`,
+		});
+	};
+
+}]);
+
+app.run(['$uibModal', '$rootScope', function($uibModal, $rootScope) {
+
+	$rootScope.resultDetail = function(data) {
+
+		var modal = $uibModal.open({
+			animation: false,
+			size: '',
+			backdrop: true,
+			keyboard: true,
+			controller: ['$scope', 'Auth', '$timeout', '$state', '$rootScope', function($scope, Auth, $timeout, $state, $rootScope) {
+
+				$scope.data = data;
+				var ref = firebase.database().ref().child('equipment').child(data.data.id);
+
+				$scope.equipment = {};
+
+				ref.once('value', function(snap) {
+					$scope.equipment = snap.val();
+					$timeout(function() {
+						$scope.$apply();
+					}, 100);
+
+				}).catch(function(err) {
+					console.log('Unable to access', err);
+				})
+
+				// Close if logged in.
+				if ($rootScope.userInfo) {
+					modal.close();;
+				}
+
+				// Click event close the modal.
+				$scope.close = function() {
+					modal.close();
+				};
+
+			}],
+			template: `<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						{{ equipment.maker }} - {{ equipment.name }}
+					</h4>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-4">
+							<img ng-src="{{ equipment.photoUrl }}" width="100">
+						</div>
+						<div class="col-md-8">
+
+							<b>
+								Instrument Details
+							</b>
+
+							<table class="table">
+								<tr>
+									<td>
+										Mode:
+									</td>
+									<td>
+										{{ data.data.mode | modeName }}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Output:
+									</td>
+									<td>
+										{{ data.data.output }}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Reads:
+									</td>
+									<td>
+										{{ data.data.reads }}
+									</td>
+								</tr>
+							</table>
+
+							<p>
+								There are <b>11</b> Service providers accept libraries
+								for sequencing on this instrument. Currently
+								there are 5 that accept libraries on Meeta.
+							</p>
+
+							<a class="btn btn-success" target="_blank" href="https://meenta.io/search/#!/?q={{ equipment.name }}&utm-source=calculator">
+								Find Provider
+							</a>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-link" ng-click="close()">
+						Close
+					</button>
 				</div>
 			</div>
 			`,

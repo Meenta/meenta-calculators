@@ -7,7 +7,7 @@ app.directive('summary', function() {
     template: `
       <p ng-if="parameters.summary" class="alert alert-secondary">
         A pool of <b>{{ parameters.numOfLibraries }}</b> libraries for <b>{{ parameters.applicationData.title }}</b>
-        application with a minimum desired coverage of <b>{{ parameters.coverage }}x/library</b>,
+        with a desired coverage of <b>{{ parameters.coverage }}x/library</b>,
         needs approx. <b>{{ parameters.summary.outputNeeded | number: 3 }} Gb</b> of data.
         (Note: this application typically needs {{ parameters.applicationData.requiredReads }} per library.)
         <br>

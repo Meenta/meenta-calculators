@@ -37,6 +37,9 @@ app.directive('results', function() {
           <th width="15%" style="text-align: center" align="center">
             Effective Coverage
           </th>
+          <th>
+            &nbsp;
+          </th>
         </tr>
         <tr ng-if="$index < allowedResults" ng-repeat="i in results | orderBy: '+output.coveragePerGenome'">
           <td>
@@ -56,6 +59,11 @@ app.directive('results', function() {
           </td>
           <td align="center">
             {{ i.output.coveragePerGenome | number: 0 }}x
+          </td>
+          <td align="center">
+            <button class="btn btn-outline-secondary" ng-click="resultDetail(i)">
+              <i class="fa fa-info-circle"></i>
+            </button>
           </td>
         </tr>
       </table>
