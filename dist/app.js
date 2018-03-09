@@ -79028,7 +79028,10 @@ app.directive('results', function() {
          To see full list of sequencing options, enter you email, or if you
          already have an account with Meenta, sign-in.
          <br>
-         <a ng-click="login()">Sign-in</a>
+         <br>
+         <a ng-click="login()"><u>Sign-in</u></a>
+         or
+         <a ng-click="login()"><u>Join Newsletter</u></a>
       </div>
 
       <i ng-if="parameters.labReadAdjustment === 1">
