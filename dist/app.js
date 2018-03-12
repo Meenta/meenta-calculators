@@ -78681,7 +78681,7 @@ app.run([ 'Auth', '$rootScope', function(auth, $rootScope) {
     if (user) {
       $rootScope.userInfo = user;
       $rootScope.isLoggedIn = true;
-      console.log("Welcome UID:" + user.uid);
+      console.log("Welcome UID v2:" + user.uid);
     } else {
       $rootScope.isLoggedIn = false;
     }
