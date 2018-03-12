@@ -5,15 +5,19 @@ app.directive('calculatorWorkspace', function() {
 
       // Set the parameters.
       $scope.parameters = {
-        material: $stateParams.material || 'human',
-        materialData: null,
-        genome: 0,
-        application: $stateParams.application || 'k-genome',
+        type: $stateParams.type || 'rna',
+        material: $stateParams.material || 'mouse',
+        genomeSize: 0,
         coverage: '30',
         numOfLibraries: 40,
-        labReadAdjustment: 0.9,
+        labReadAdjustment: 1,
         dupTolerance: 0.2,
         summary: null
+      }
+
+      var getMaterial = _.find(material, { key: $scope.parameters.material });
+      if (getMaterial) {
+        $scope.parameters.genomeSize = $utils.toGb(getMaterial[$scope.parameters.type]);
       }
 
       // --------------------------------------------
@@ -25,24 +29,9 @@ app.directive('calculatorWorkspace', function() {
       if (appData) {
         $scope.parameters.applicationData = appData;
       } else {
-        $scope.parameters.application = 'whole-genome';
-        $scope.parameters.applicationData =  _.find(applications, { key: 'whole-genome' });
+        $scope.parameters.application = $scope.parameters.type === 'rna' ? 'mRNA-Seq': 'whole-genome';
+        $scope.parameters.applicationData =  _.find(applications, { key: $scope.parameters.application });
       }
-
-      // --------------------------------------------
-
-      var matData = _.find(material, { key: $scope.parameters.application });
-
-      if (matData) {
-        $scope.parameters.materialData = matData;
-      } else {
-        $scope.parameters.material = 'human';
-        $scope.parameters.materialData =  _.find(material, { key: 'human' });
-      }
-
-      // --------------------------------------------
-
-      $scope.parameters.genome = $utils.toGb($scope.parameters.applicationData.requiredReads);
 
 		  var instruments = [];
 		  _.each(instrumentList, function(instrument, key) {
@@ -56,11 +45,9 @@ app.directive('calculatorWorkspace', function() {
       // Click event to trigger the search.
 			$scope.calculate = function(parameters) {
 
-		    // Make a copy.
+        console.log(parameters);
+        // Make a copy.
         var results = angular.copy(instruments);
-
-        var type = parameters.applicationData.type;
-        var genomeSize = $utils.toGb(parameters.materialData[type]);
 
         // var parameters.genome =
 		    // Loop and update.
@@ -68,39 +55,41 @@ app.directive('calculatorWorkspace', function() {
 		        results[idx] = new Sequence(item, parameters);
 		    });
 
+        $scope.parameters.summary = {
+          outputNeeded: (parameters.genomeSize * parameters.numOfLibraries * parameters.coverage)
+        }
+
         // Filter for those that meet the experitnal requirements.
         results = _.where(results, { valid: true });
 
-        // Calc the requiredGb for this application and number of libraries.
-        var requiredReadsGb = $utils.toGb(parameters.applicationData.requiredReads);
-
         // setup the summary.
-        $scope.parameters.summary = {
-          outputNeeded: requiredReadsGb * parameters.coverage,
-          numOfAvlSolutions: results.length
-        };
+        $scope.parameters.summary.numOfAvlSolutions = results.length;
 
         // log the results to keen.s
-        angularKeenClient.addEvent('calculation', {
-          ip_address: '${keen.id}',
-          parameters:  $scope.parameters
-        });
+        // -----------------------
+        // angularKeenClient.addEvent('calculation', {
+        //   ip_address: '${keen.id}',
+        //   parameters:  $scope.parameters
+        // });
 
         $timeout(function() {
           $scope.$emit('newResults', results)
-        }, 500)
+        }, 500);
 		  }
 
       // If the Parameters change, update the parameters and trigger
       // the function to run.
 		  $scope.$watch('parameters', function(newVal, oldVal) {
 		    if (newVal !== oldVal) {
-		      newVal.applicationData = _.find(applications, { key: newVal.application });
-          newVal.materialData = _.find(material, { key: newVal.material });
+          newVal.applicationData = _.find(applications, { key: newVal.application });
+          // newVal.materialData = _.find(material, { key: newVal.material });
 
-          // console.log('ehre', newVal);
-		      // newVal.genome = $utils.toGb(newVal.materialData.dna);
+          var d = _.find(material, { key: newVal });
+          var type = newVal.type;
+          if (d)
+            newVal.genomeSize = $utils.toGb(d[type]);
 
+          console.log(newVal);
 		      $scope.calculate(newVal);
 		    }
 		  }, true);

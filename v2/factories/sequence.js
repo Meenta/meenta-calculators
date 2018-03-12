@@ -23,41 +23,45 @@ app.factory('Sequence', function() {
     };
 
     this.process = function() {
+      var self = this;
       var output = {}
 
-      // Calc the reads per library & the reads with adjusmtn
-      var readsPerLibary = this.ref.reads / parameters.numOfLibraries;
-      var readsPerLibraryAct = readsPerLibary * parameters.labReadAdjustment;
+      var size = parameters.genomeSize;
+      var nl = parameters.numOfLibraries;
+      var out = this.ref.output;
+      var reads = this.ref.reads;
+      var corr = parameters.labReadAdjustment;
+      var dup = parameters.dupTolerance;
 
-      // Stage 1: Calc the actual out with the adjustment off of Illumina.
-      var actualReads = this.ref.reads * parameters.labReadAdjustment;
-      var actualOutput = this.ref.output * parameters.labReadAdjustment;
+      // 1. Determine the reads per library
+      output.readDebug = { reads: reads, corr: corr, nl: nl };
+      output.readPerLibrary = (reads * corr) / nl;
 
-      // Stage 2:
-      var predReads = actualReads / parameters.numOfLibraries;
+      // 2. Calculate the effective coverage.
+      var cpl = ((out / size ) - ((out / size) * dup)) / nl;
 
-      var outputPerGenome = actualOutput / parameters.genome;
-      var outputPerGenomeWithDedup = outputPerGenome * parameters.dupTolerance;
+      // Debug
+      output.coverageDebug = {
+        out: out,
+        size: size,
+        dup: dup,
+        nl: nl,
+        ideal: out / size,
+        dupTol: (out / size) * dup,
+        uniqReads: (out / size ) - ((out / size) * dup),
+        cpl: cpl
+      };
 
-      var outputPerGenomeWithDedup = outputPerGenome - outputPerGenomeWithDedup;
-
-      var coveragePerGenome = outputPerGenomeWithDedup / parameters.numOfLibraries;
-      // var readsPerLib = uniqueNumberOfReads / $scope.parameters.numOfLibraries;
-
-      output.readsPerLibary = readsPerLibary;
-      output.actualReads = actualReads;
-      output.readsPerLibraryAct = readsPerLibraryAct;
-      output.actualOutput = actualOutput;
-
-      output.predReads = predReads;
-      output.outputPerGenome = outputPerGenome;
-      output.outputPerGenomeWithDedup = outputPerGenomeWithDedup;
-
-      output.coveragePerGenome = coveragePerGenome;
-      output.outputPerGenomeWithDedup = outputPerGenomeWithDedup
+      output.coverage = cpl;
 
       // Provies a T/F for the current coverae.
-      this.valid = output.coveragePerGenome >= parameters.coverage;
+      this.valid = false;
+
+      if (parameters.applicationData) {
+        var applicationReads = self.convertToGb(parameters.applicationData.requiredReads);
+        // Provies a T/F for the current coverae.
+        this.valid = output.readPerLibrary <= applicationReads;
+      }
 
       this.output = output;
     };

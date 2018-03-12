@@ -7,9 +7,11 @@ app.directive('summary', function() {
     template: `
       <p ng-if="parameters.summary" class="alert alert-secondary">
         A pool of <b>{{ parameters.numOfLibraries }}</b> libraries for <b>{{ parameters.applicationData.title }}</b>
-        with a desired coverage of <b>{{ parameters.coverage }}x/library</b>,
-        needs approx. <b>{{ parameters.summary.outputNeeded | number: 3 }} Gb</b> of data.
-        (Note: this application typically needs {{ parameters.applicationData.requiredReads }} per library.)
+        with a desired coverage of <b>{{ parameters.coverage }}x/library</b>
+        needs approx. <b>{{ parameters.summary.outputNeeded }} Gb</b> of data.
+        <span ng-if="parameters.applicationData">
+          This application using <b>{{ parameters.material | titlecase }} {{ parameters.type | typeName | titlecase }}</b> requires <b>{{ parameters.applicationData.requiredReads }} reads</b> per library.
+        </span>
         <br>
         <br>
         <span ng-if="parameters.summary.numOfAvlSolutions > 0">

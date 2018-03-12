@@ -1,18 +1,15 @@
 app.constant('instruments', {
-  // "hiSeq-1000": [
-  //   { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb" },
-  //   { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb" }
-  // ],
+  "hiSeq-1000": [
+    { "mode": "v4", "reads": "65 M", "output": "19.5 Gb" },
+    { "mode": "v3", "reads": "130 M", "output": "39 Gb" }
+  ],
+});
+
+app.constant('instruments9', {
   "hiSeq-2000": [
     { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb", "id": "-KV_kL3Tk68ohatRRoKU" },
     { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb", "id": "-KV_kL3Tk68ohatRRoKU" }
   ],
-  // "hiSeq-1500": [
-  //   { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb" },
-  //   { "mode": "rapid", "reads": "300 M", "output": "45 Gb" },
-  //   { "mode": "rapidv2", "reads": "150.696 M", "output": "22.6044 Gb" },
-  //   { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb" }
-  // ],
   "hiSeq-2500": [
     { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
     { "mode": "rapid", "reads": "300 M", "output": "45 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
@@ -45,6 +42,13 @@ app.constant('instruments', {
     { "mode": "s3", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" }
   ]
 });
+
+// "hiSeq-1500": [
+//   { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb" },
+//   { "mode": "rapid", "reads": "300 M", "output": "45 Gb" },
+//   { "mode": "rapidv2", "reads": "150.696 M", "output": "22.6044 Gb" },
+//   { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb" }
+// ],
 
 app.constant('instruments4Development', {
   "nextSeq-500": [

@@ -33,12 +33,8 @@ app.directive('results', function() {
           <tr>
             <th width="15%" align="center">Instrument</th>
             <th width="15%" align="center">Mode</th>
-            <th width="15%" align="center" ng-if="parameters.settings.showIlluminaSpecifications">Ill Reads</th>
-            <th width="15%" align="center" ng-if="parameters.settings.showIlluminaSpecifications">Ill. Output</th>
-            <th width="15%" align="center" ng-if="parameters.settings.showIlluminaSpecifications">Predicted clusters per library (M)</th>
-            <th width="15%" style="text-align: center" align="center">Clusters</th>
-            <th width="15%" style="text-align: center" align="center">Output</th>
-            <th width="15%" style="text-align: center" align="center">Clusters per Library</th>
+            <th width="15%" style="text-align: center" align="center">Total Clusters Possible</th>
+            <th width="15%" style="text-align: center" align="center">Predicted Clusters per Library</th>
             <th width="15%" style="text-align: center" align="center">
               Effective Coverage
             </th>
@@ -54,19 +50,20 @@ app.directive('results', function() {
               {{ i.data.mode | modeName }}
             </td>
             <td align="center" title="Reads: {{ i.data.reads }}">
-              {{ i.data.reads }}
+              {{ i.data.reads  }}
             </td>
             <td align="center">
-              {{ i.output.actualOutput | number: 2 }} Gb
+              {{ i.output.readPerLibrary * 1000 | number: 3 }} M
             </td>
             <td align="center">
-              {{ i.output.predReads * 1000 | number: 2 }} M
-            </td>
-            <td align="center">
-              {{ i.output.coveragePerGenome | number: 0 }}x
+              {{ i.output.coverage | number: 2 }}x
             </td>
             <td align="center">
               <button class="btn btn-outline-secondary" ng-click="resultDetail(i)">
+                <i class="fa fa-info-circle"></i>
+              </button>
+
+              <button class="btn btn-outline-secondary" ng-click="json(i)">
                 <i class="fa fa-info-circle"></i>
               </button>
             </td>
