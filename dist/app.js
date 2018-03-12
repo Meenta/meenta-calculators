@@ -78731,14 +78731,14 @@ app.constant('applications', [
   { key: 'truseq-tumor-26', type: 'dna', requiredReads: '0.021 M', title: 'TruSeq Tumor 15' }
 ]);
 
-app.constant('instruments', {
-  "hiSeq-1000": [
-    { "mode": "v4", "reads": "65 M", "output": "19.5 Gb" },
-    { "mode": "v3", "reads": "130 M", "output": "39 Gb" }
-  ],
-});
+// app.constant('instruments', {
+//   "hiSeq-1000": [
+//     { "mode": "v4", "reads": "65 M", "output": "19.5 Gb" },
+//     { "mode": "v3", "reads": "130 M", "output": "39 Gb" }
+//   ],
+// });
 
-app.constant('instruments9', {
+app.constant('instruments', {
   "hiSeq-2000": [
     { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb", "id": "-KV_kL3Tk68ohatRRoKU" },
     { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb", "id": "-KV_kL3Tk68ohatRRoKU" }
@@ -79014,7 +79014,7 @@ app.directive('results', function() {
               &nbsp;
             </th>
           </tr>
-          <tr ng-if="$index < allowedResults" ng-repeat="i in results | orderBy: '+output.coveragePerGenome'">
+          <tr ng-if="$index < allowedResults" ng-repeat="i in results | orderBy: '-output.coverage'">
             <td>
               {{ i.data.instrument | instrumentName }}
             </td>

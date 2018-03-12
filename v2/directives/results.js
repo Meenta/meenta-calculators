@@ -42,7 +42,7 @@ app.directive('results', function() {
               &nbsp;
             </th>
           </tr>
-          <tr ng-if="$index < allowedResults" ng-repeat="i in results | orderBy: '+output.coveragePerGenome'">
+          <tr ng-if="$index < allowedResults" ng-repeat="i in results | orderBy: '-output.coverage'">
             <td>
               {{ i.data.instrument | instrumentName }}
             </td>
