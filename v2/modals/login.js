@@ -41,7 +41,7 @@ app.run(['$uibModal', '$rootScope', function($uibModal, $rootScope) {
 					modal.close();
 
 					$timeout(function() {
-						$rootScope.forgotPassword2();
+						$rootScope.forgotPassword();
 					}, 500);
 				};
 
@@ -111,11 +111,9 @@ app.run(['$uibModal', '$rootScope', function($uibModal, $rootScope) {
 					</div>
 					<hr>
 					<div class="row">
-						<div class="md-7">
-							Don't have an account?
-						</div>
-						<div class="md-2 pull-right">
-							<button type="button" class="btn btn-default pull-right" ng-click="switchToRegistration();">Sign up</button>
+						<div class="col-md-12">
+							Don't have an account? <a href="#" ng-click="switchToRegistration();">Sign up</a> and
+							get access to a suite of NGS tools and booking services.
 						</div>
 					</div>
 					<br>

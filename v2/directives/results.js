@@ -28,7 +28,7 @@ app.directive('results', function() {
         Sorry, there are no instruments that will provide the
         coverage you require for this application.
       </div>
-      <div class="table-responsive-sm" ng-if="results.length > 0">
+      <div class="table-responsive-sm" ng-if="results.length > 0" style="height: 400px; overflow: scroll;">
         <table class="table table-striped table-responsive">
           <tr>
             <th width="15%" align="center">Instrument</th>
