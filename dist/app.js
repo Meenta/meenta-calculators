@@ -79153,7 +79153,6 @@ app.directive('calculatorWorkspace', function() {
       // Click event to trigger the search.
 			$scope.calculate = function(parameters) {
 
-        console.log(parameters);
         // Make a copy.
         var results = angular.copy(instruments);
 
