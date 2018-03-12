@@ -1,9 +1,10 @@
 app.directive('calculatorForm', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', 'applications', function( $rootScope, $scope, applications ) {
- 
+    controller: [ '$rootScope', '$scope', 'applications', 'material', function( $rootScope, $scope, applications, material ) {
+
       $scope.applications = applications;
+      $scope.material = material;
 
       $scope.$watch('parameters', function(newVal, oldVal) {
         if (newVal !== oldVal)
@@ -20,7 +21,7 @@ app.directive('calculatorForm', function() {
           <div class="col-md-3 mb-3">
             <select class="form-control" id="material" required name="material" aria-label="Material" ng-model="parameters.material" aria-describedby="Material">
               <option value="">Select Spec</option>
-              <option value="human">Human</option>
+              <option value="{{ key }}" ng-repeat="(key, item) in material | groupBy:'key'">{{ key | titlecase }}</option>
             </select>
           </div>
         </div>

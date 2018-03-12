@@ -78791,6 +78791,11 @@ app.constant('instruments4Development', {
   ]
 });
 
+app.constant('material', [
+  { key: 'human', rna: '64 M', dna: '3.3 Gb' },
+  { key: 'mouse', rna: '64 M', dna: '3.3 Gb' },
+]);
+
 app.directive('coverageTable', function() {
   return {
 		scope: false,
@@ -78833,9 +78838,10 @@ app.directive('coverageTable', function() {
 app.directive('calculatorForm', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', 'applications', function( $rootScope, $scope, applications ) {
- 
+    controller: [ '$rootScope', '$scope', 'applications', 'material', function( $rootScope, $scope, applications, material ) {
+
       $scope.applications = applications;
+      $scope.material = material;
 
       $scope.$watch('parameters', function(newVal, oldVal) {
         if (newVal !== oldVal)
@@ -78852,7 +78858,7 @@ app.directive('calculatorForm', function() {
           <div class="col-md-3 mb-3">
             <select class="form-control" id="material" required name="material" aria-label="Material" ng-model="parameters.material" aria-describedby="Material">
               <option value="">Select Spec</option>
-              <option value="human">Human</option>
+              <option value="{{ key }}" ng-repeat="(key, item) in material | groupBy:'key'">{{ key | titlecase }}</option>
             </select>
           </div>
         </div>
@@ -78972,8 +78978,12 @@ app.directive('results', function() {
 
 		}],
     template: `
-    <div ng-if="results && results.length > 0">
-      <div class="table-responsive-sm">
+    <div ng-if="results">
+      <div class="alert alert-danger" ng-if="results.length == 0">
+        Sorry, there are no instruments that will provide the
+        coverage you require for this application.
+      </div>
+      <div class="table-responsive-sm" ng-if="results.length > 0">
         <table class="table table-striped table-responsive">
           <tr>
             <th width="15%" align="center">Instrument</th>
@@ -79024,7 +79034,7 @@ app.directive('results', function() {
          Hope you are find what you need.
       </div>
 
-      <div ng-if="isLoggedIn !== true" class="alert alert-success">
+      <div ng-if="results.length > 3" isLoggedIn !== true" class="alert alert-success">
          <h4>Need to See More?</h4>
          To see full list of sequencing options, enter you email, or if you
          already have an account with Meenta, sign-in.
@@ -79083,11 +79093,12 @@ app.directive('summary', function() {
 app.directive('calculatorWorkspace', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
+    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'material', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, material, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
 
       // Set the parameters.
       $scope.parameters = {
         material: $stateParams.material || 'human',
+        materialData: null,
         genome: 0,
         application: $stateParams.application || 'k-genome',
         coverage: '30',
@@ -79096,6 +79107,8 @@ app.directive('calculatorWorkspace', function() {
         dupTolerance: 0.2,
         summary: null
       }
+
+      // --------------------------------------------
 
       // Check if we have an application. If not defined, then lets
       // force them back to whole genome
@@ -79107,6 +79120,19 @@ app.directive('calculatorWorkspace', function() {
         $scope.parameters.application = 'whole-genome';
         $scope.parameters.applicationData =  _.find(applications, { key: 'whole-genome' });
       }
+
+      // --------------------------------------------
+
+      var matData = _.find(material, { key: $scope.parameters.application });
+
+      if (matData) {
+        $scope.parameters.materialData = matData;
+      } else {
+        $scope.parameters.material = 'human';
+        $scope.parameters.materialData =  _.find(material, { key: 'human' });
+      }
+
+      // --------------------------------------------
 
       $scope.parameters.genome = $utils.toGb($scope.parameters.applicationData.requiredReads);
 
@@ -79125,6 +79151,10 @@ app.directive('calculatorWorkspace', function() {
 		    // Make a copy.
         var results = angular.copy(instruments);
 
+        var type = parameters.applicationData.type;
+        var genomeSize = $utils.toGb(parameters.materialData[type]);
+
+        // var parameters.genome =
 		    // Loop and update.
 		    _.each(results, function(item, idx) {
 		        results[idx] = new Sequence(item, parameters);
@@ -79157,8 +79187,11 @@ app.directive('calculatorWorkspace', function() {
       // the function to run.
 		  $scope.$watch('parameters', function(newVal, oldVal) {
 		    if (newVal !== oldVal) {
-		      newVal.applicationData = _.find(applications, { key: newVal.application })
-		      newVal.genome = $utils.toGb(newVal.applicationData.requiredReads);
+		      newVal.applicationData = _.find(applications, { key: newVal.application });
+          newVal.materialData = _.find(material, { key: newVal.material });
+
+          // console.log('ehre', newVal);
+		      // newVal.genome = $utils.toGb(newVal.materialData.dna);
 
 		      $scope.calculate(newVal);
 		    }
@@ -79213,8 +79246,8 @@ app.factory('Sequence', function() {
 
     this.init = function(data) {
       // This will read all the data and convert to
-      this.ref.reads = this.convertToGb(data.reads)
-      this.ref.output = this.convertToGb(data.output)
+      this.ref.reads = this.convertToGb(data.reads);
+      this.ref.output = this.convertToGb(data.output);
     };
 
     this.process = function() {
@@ -79231,7 +79264,7 @@ app.factory('Sequence', function() {
       // Stage 2:
       var predReads = actualReads / parameters.numOfLibraries;
 
-      var outputPerGenome = actualOutput / ( parameters.genome / 1000 );
+      var outputPerGenome = actualOutput / parameters.genome;
       var outputPerGenomeWithDedup = outputPerGenome * parameters.dupTolerance;
 
       var outputPerGenomeWithDedup = outputPerGenome - outputPerGenomeWithDedup;
@@ -79351,6 +79384,28 @@ app.filter('modeName', function() {
     }
     return out;
   }
+});
+
+app.filter('titlecase', function() {
+    return function (input) {
+        var smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
+
+        input = input.toLowerCase();
+        return input.replace(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, function(match, index, title) {
+            if (index > 0 && index + match.length !== title.length &&
+                match.search(smallWords) > -1 && title.charAt(index - 2) !== ":" &&
+                (title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-') &&
+                title.charAt(index - 1).search(/[^\s-]/) < 0) {
+                return match.toLowerCase();
+            }
+
+            if (match.substr(1).search(/[A-Z]|\../) > -1) {
+                return match;
+            }
+
+            return match.charAt(0).toUpperCase() + match.substr(1);
+        });
+    }
 });
 
 app.run(['$uibModal', '$rootScope', function($uibModal, $rootScope) {

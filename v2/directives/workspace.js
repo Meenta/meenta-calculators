@@ -1,11 +1,12 @@
 app.directive('calculatorWorkspace', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
+    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'material', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, material, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
 
       // Set the parameters.
       $scope.parameters = {
         material: $stateParams.material || 'human',
+        materialData: null,
         genome: 0,
         application: $stateParams.application || 'k-genome',
         coverage: '30',
@@ -14,6 +15,8 @@ app.directive('calculatorWorkspace', function() {
         dupTolerance: 0.2,
         summary: null
       }
+
+      // --------------------------------------------
 
       // Check if we have an application. If not defined, then lets
       // force them back to whole genome
@@ -25,6 +28,19 @@ app.directive('calculatorWorkspace', function() {
         $scope.parameters.application = 'whole-genome';
         $scope.parameters.applicationData =  _.find(applications, { key: 'whole-genome' });
       }
+
+      // --------------------------------------------
+
+      var matData = _.find(material, { key: $scope.parameters.application });
+
+      if (matData) {
+        $scope.parameters.materialData = matData;
+      } else {
+        $scope.parameters.material = 'human';
+        $scope.parameters.materialData =  _.find(material, { key: 'human' });
+      }
+
+      // --------------------------------------------
 
       $scope.parameters.genome = $utils.toGb($scope.parameters.applicationData.requiredReads);
 
@@ -43,6 +59,10 @@ app.directive('calculatorWorkspace', function() {
 		    // Make a copy.
         var results = angular.copy(instruments);
 
+        var type = parameters.applicationData.type;
+        var genomeSize = $utils.toGb(parameters.materialData[type]);
+
+        // var parameters.genome =
 		    // Loop and update.
 		    _.each(results, function(item, idx) {
 		        results[idx] = new Sequence(item, parameters);
@@ -75,8 +95,11 @@ app.directive('calculatorWorkspace', function() {
       // the function to run.
 		  $scope.$watch('parameters', function(newVal, oldVal) {
 		    if (newVal !== oldVal) {
-		      newVal.applicationData = _.find(applications, { key: newVal.application })
-		      newVal.genome = $utils.toGb(newVal.applicationData.requiredReads);
+		      newVal.applicationData = _.find(applications, { key: newVal.application });
+          newVal.materialData = _.find(material, { key: newVal.material });
+
+          // console.log('ehre', newVal);
+		      // newVal.genome = $utils.toGb(newVal.materialData.dna);
 
 		      $scope.calculate(newVal);
 		    }

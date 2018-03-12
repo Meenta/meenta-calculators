@@ -18,8 +18,8 @@ app.factory('Sequence', function() {
 
     this.init = function(data) {
       // This will read all the data and convert to
-      this.ref.reads = this.convertToGb(data.reads)
-      this.ref.output = this.convertToGb(data.output)
+      this.ref.reads = this.convertToGb(data.reads);
+      this.ref.output = this.convertToGb(data.output);
     };
 
     this.process = function() {
@@ -36,7 +36,7 @@ app.factory('Sequence', function() {
       // Stage 2:
       var predReads = actualReads / parameters.numOfLibraries;
 
-      var outputPerGenome = actualOutput / ( parameters.genome / 1000 );
+      var outputPerGenome = actualOutput / parameters.genome;
       var outputPerGenomeWithDedup = outputPerGenome * parameters.dupTolerance;
 
       var outputPerGenomeWithDedup = outputPerGenome - outputPerGenomeWithDedup;

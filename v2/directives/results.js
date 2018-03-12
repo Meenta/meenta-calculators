@@ -23,8 +23,12 @@ app.directive('results', function() {
 
 		}],
     template: `
-    <div ng-if="results && results.length > 0">
-      <div class="table-responsive-sm">
+    <div ng-if="results">
+      <div class="alert alert-danger" ng-if="results.length == 0">
+        Sorry, there are no instruments that will provide the
+        coverage you require for this application.
+      </div>
+      <div class="table-responsive-sm" ng-if="results.length > 0">
         <table class="table table-striped table-responsive">
           <tr>
             <th width="15%" align="center">Instrument</th>
@@ -75,7 +79,7 @@ app.directive('results', function() {
          Hope you are find what you need.
       </div>
 
-      <div ng-if="isLoggedIn !== true" class="alert alert-success">
+      <div ng-if="results.length > 3" isLoggedIn !== true" class="alert alert-success">
          <h4>Need to See More?</h4>
          To see full list of sequencing options, enter you email, or if you
          already have an account with Meenta, sign-in.
