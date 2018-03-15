@@ -25,7 +25,6 @@ app.factory('Sequence', function() {
     this.process = function() {
       var self = this;
       var output = {}
-
       var size = parameters.genomeSize;
       var nl = parameters.numOfLibraries;
       var out = this.ref.output;
@@ -33,12 +32,13 @@ app.factory('Sequence', function() {
       var corr = parameters.labReadAdjustment;
       var dup = parameters.dupTolerance;
 
-      // 1. Determine the reads per library
       output.readDebug = { reads: reads, corr: corr, nl: nl };
+
+      // 1. Determine the reads per library
       output.readPerLibrary = (reads * corr) / nl;
 
       // 2. Calculate the effective coverage.
-      var cpl = ((out / size ) - ((out / size) * dup)) / nl;
+      var cpl = (( out / size ) - (( out / size ) * dup )) / nl;
 
       // Debug
       output.coverageDebug = {
@@ -48,7 +48,7 @@ app.factory('Sequence', function() {
         nl: nl,
         ideal: out / size,
         dupTol: (out / size) * dup,
-        uniqReads: (out / size ) - ((out / size) * dup),
+        uniqReads: ( out / size ) - (( out / size ) * dup),
         cpl: cpl
       };
 
@@ -60,7 +60,7 @@ app.factory('Sequence', function() {
       if (parameters.applicationData) {
         var applicationReads = self.convertToGb(parameters.applicationData.requiredReads);
         // Provies a T/F for the current coverae.
-        this.valid = output.readPerLibrary <= applicationReads;
+        this.valid = output.readPerLibrary >= applicationReads;
       }
 
       this.output = output;

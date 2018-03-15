@@ -1,37 +1,43 @@
 app.directive('calculatorWorkspace', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'material', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, material, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
+    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'material', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, materials, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
 
       // Set the parameters.
       $scope.parameters = {
         type: $stateParams.type || 'rna',
         material: $stateParams.material || 'mouse',
+        application: $stateParams.application || 'whole-genome',
+        numOfLibraries: parseInt($stateParams.libraries || 40),
         genomeSize: 0,
-        coverage: '30',
-        numOfLibraries: 40,
         labReadAdjustment: 1,
         dupTolerance: 0.2,
         summary: null
       }
 
-      var getMaterial = _.find(material, { key: $scope.parameters.material });
-      if (getMaterial) {
-        $scope.parameters.genomeSize = $utils.toGb(getMaterial[$scope.parameters.type]);
+      var getMaterial = function(material, type) {
+        var sel = _.find(materials, { key: material });
+        if (sel) {
+          $scope.parameters.genomeSize = $utils.toGb(sel[type]);
+        }
       }
+
+      var getApplication = function(application, type) {
+        var appData = _.find(applications, { key: application });
+        if (appData) {
+          $scope.parameters.applicationData = appData;
+        } else {
+          $scope.parameters.application = type === 'rna' ? 'mRNA-Seq': 'whole-genome';
+          $scope.parameters.applicationData =  _.find(applications, { key: application });
+        }
+
+        return $scope.parameters.applicationData;
+      }
+
+      getMaterial($scope.parameters.material, $scope.parameters.type);
+      getApplication($scope.parameters.application, $scope.parameters.type);
 
       // --------------------------------------------
-
-      // Check if we have an application. If not defined, then lets
-      // force them back to whole genome
-      var appData = _.find(applications, { key: $scope.parameters.application });
-
-      if (appData) {
-        $scope.parameters.applicationData = appData;
-      } else {
-        $scope.parameters.application = $scope.parameters.type === 'rna' ? 'mRNA-Seq': 'whole-genome';
-        $scope.parameters.applicationData =  _.find(applications, { key: $scope.parameters.application });
-      }
 
 		  var instruments = [];
 		  _.each(instrumentList, function(instrument, key) {
@@ -80,15 +86,12 @@ app.directive('calculatorWorkspace', function() {
       // the function to run.
 		  $scope.$watch('parameters', function(newVal, oldVal) {
 		    if (newVal !== oldVal) {
-          newVal.applicationData = _.find(applications, { key: newVal.application });
-          // newVal.materialData = _.find(material, { key: newVal.material });
+          newVal.applicationData = getApplication(newVal.application, newVal.type) ;
 
-          var d = _.find(material, { key: newVal });
+          var d = _.find(material, { key: newVal.material });
           var type = newVal.type;
-          if (d)
-            newVal.genomeSize = $utils.toGb(d[type]);
+          if (d) newVal.genomeSize = $utils.toGb(d[type]);
 
-          console.log(newVal);
 		      $scope.calculate(newVal);
 		    }
 		  }, true);
@@ -99,14 +102,11 @@ app.directive('calculatorWorkspace', function() {
     }],
     template: `
       <h2 class="mt-4 d-none d-md-block">
-        NGS Coverage Calculator
+        Library Coverage Calculator
       </h2>
 
       <p class="lead mt-2">
-        This calculator provides tools to determine the coverage needed
-        for pool libraries for different applications on Illumina instruments.
-        It provides a summary and a list of instruments and modes capable of
-        providing the require per library reads.
+        Calculate the number of libraries you can multiplex for a given application at a desired coverage.
       </p>
 
       <calculator-form parameters="parameters"></calculator-form>

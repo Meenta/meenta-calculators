@@ -5,11 +5,11 @@ app
 	$locationProvider.hashPrefix('!');
 
 	// Set the default path.
-	$urlRouterProvider.otherwise('/calculator/dna/human/whole-genome');
+	$urlRouterProvider.otherwise('/calculator/dna/human/whole-genome/10');
 
 	$stateProvider
 		.state('calculator', {
-			url: '/calculator/:type/:material/:application',
+			url: '/calculator/:type/:material/:application/:libraries',
 			controller: ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams) {
 
 				// When the parameters change, we need to update the route.
@@ -18,7 +18,8 @@ app
 					$state.go('calculator', {
 						type: parameters.type || 'dna',
 						material: parameters.material || 'human',
-						application: parameters.application || ''
+						application: parameters.application || 'whole-genome',
+						libraries: parseInt(parameters.numOfLibraries || 10)
 					}, { notify: true });
 
 				});

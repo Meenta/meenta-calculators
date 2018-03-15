@@ -78731,23 +78731,14 @@ app.constant('applications', [
   { key: 'truseq-tumor-26', type: 'dna', requiredReads: '0.021 M', title: 'TruSeq Tumor 15' }
 ]);
 
-// app.constant('instruments', {
-//   "hiSeq-1000": [
-//     { "mode": "v4", "reads": "65 M", "output": "19.5 Gb" },
-//     { "mode": "v3", "reads": "130 M", "output": "39 Gb" }
-//   ],
-// });
-
 app.constant('instruments', {
   "hiSeq-2000": [
-    { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb", "id": "-KV_kL3Tk68ohatRRoKU" },
     { "mode": "v3", "reads": "186.048 M", "output": "27.907 Gb", "id": "-KV_kL3Tk68ohatRRoKU" }
   ],
   "hiSeq-2500": [
-    { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
-    { "mode": "rapid", "reads": "300 M", "output": "45 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
-    { "mode": "rapidv2", "reads": "150.696 M", "output": "22.6044 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
-    { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" }
+    { "mode": "v4", "reads": "249.9336 M", "output": "37.490 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" }, // Need new numbes
+    { "mode": "rapidv2", "reads": "150 M", "unit": "single lane", "type": "sr", "output": "15 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" },
+    { "mode": "rapidv2", "reads": "300 M", "unit": "single lane", "type": "pe", "output": "30 Gb", "id": "-KV_k6D4aqaSn0g4LRpV" }
   ],
   "hiSeq-3000": [
     { "mode": "standard", "reads": "3.125 M", "output": "46.875 Gb", "id": "-KV_kiZAhebKVoNqWvHt" },
@@ -78762,43 +78753,109 @@ app.constant('instruments', {
     { "mode": "nanov2", "reads": "1 M", "output": "150 M", "id": "-Ka-nhDZDhYaFVADMNn8" }
   ],
   "nextSeq-500": [
-    { "mode": "highOutput", "reads": "400 M", "output": "60 Gb", "id": "-Kgl9rGuMzNGUDVdn8bW" },
-    { "mode": "midOutput", "reads": "130 M", "output": "19.5 Gb", "id": "-Kgl9rGuMzNGUDVdn8bW" }
-  ],
-  "nextSeq-550": [
-    { "mode": "highOutput", "reads": "400 M", "output": "60 Gb", "id": "-Kbjp7NKOGYlEL4ItGXE" },
-    { "mode": "midOutput", "reads": "130 M", "output": "19.5 Gb", "id": "-Kbjp7NKOGYlEL4ItGXE" }
-  ],
-  "novaSeq-5000": [
-    { "mode": "s1", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" },
-    { "mode": "s2", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" },
-    { "mode": "s3", "reads": "3.3 Gb", "output": "495 Gb", "id": "-Kbjq3T24qeHLXr3zU7R" }
-  ]
-});
-
-// "hiSeq-1500": [
-//   { "mode": "rapid", "reads": "150.696 M", "output": "22.6044 Gb" },
-//   { "mode": "rapid", "reads": "300 M", "output": "45 Gb" },
-//   { "mode": "rapidv2", "reads": "150.696 M", "output": "22.6044 Gb" },
-//   { "mode": "rapidv2", "reads": "300 M", "output": "45 Gb" }
-// ],
-
-app.constant('instruments4Development', {
-  "nextSeq-500": [
-    { "mode": "midOutput", "reads": "65 M", "output": "19.5 Gb" },
     { "mode": "midOutput", "reads": "130 M", "output": "39 Gb" }
   ],
   "nextSeq-550": [
-    { "mode": "highoutput", "reads": "100 M", "output": "30 Gb" },
-    { "mode": "highoutput", "reads": "200 M", "output": "60 Gb" },
     { "mode": "highoutput", "reads": "400 M", "output": "120 Gb" }
-  ]
+  ],
+  "novaSeq-6000": [
+    { "mode": "s1", "reads": "1.6 B", "type": "sr", "output": "1 Gb", "id": "-KdBhudWqf-uSaF9jps1" },
+    { "mode": "s1", "reads": "3.2 B", "type": "pe", "output": "1 Gb", "id": "-KdBhudWqf-uSaF9jps1" },
+
+    { "mode": "s2", "reads": "4.1 B", "type": "sr", "output": "1 Gb", "id": "-KdBhudWqf-uSaF9jps1" },
+    { "mode": "s2", "reads": "8.2 B", "type": "pe", "output": "1 Gb", "id": "-KdBhudWqf-uSaF9jps1" },
+
+    { "mode": "s4", "reads": "10 B", "type": "sr", "output": "1 Gb", "id": "-KdBhudWqf-uSaF9jps1" },
+    { "mode": "s4", "reads": "20 B", "type": "pe", "output": "1 Gb", "id": "-KdBhudWqf-uSaF9jps1" }
+  ],
+  "hiSeq-1500": [
+    { "mode": "rapidv2", "type": "sr", "reads": "150.696 M", "output": "22.6044 Gb" },
+    { "mode": "rapidv2", "type": "pe", "reads": "300 M", "output": "45 Gb" }
+  ],
 });
 
 app.constant('material', [
   { key: 'human', rna: '64 M', dna: '3.3 Gb' },
   { key: 'mouse', rna: '62 M', dna: '2.8 Gb' },
 ]);
+
+app.factory('Sequence', function() {
+
+  // Simple class to manage the calculator.
+  var Sequencing = function(data, parameters) {
+    this.data = data;
+    this.ref = {};
+
+    // This function will convert a given value to Gb.
+    this.convertToGb = function(val) {
+      var t = val.split(' ');
+      if (t.length === 1) return parseFloat(t[0]);
+      if (t.length === 2) {
+        var u = t[1];
+        if (t[1].toLowerCase().trim() === 'gb') return parseFloat(t[0]);
+        if (t[1].toLowerCase().trim() === 'm') return parseFloat(t[0]) / 1000;
+      }
+    };
+
+    this.init = function(data) {
+      // This will read all the data and convert to
+      this.ref.reads = this.convertToGb(data.reads);
+      this.ref.output = this.convertToGb(data.output);
+    };
+
+    this.process = function() {
+      var self = this;
+      var output = {}
+      var size = parameters.genomeSize;
+      var nl = parameters.numOfLibraries;
+      var out = this.ref.output;
+      var reads = this.ref.reads;
+      var corr = parameters.labReadAdjustment;
+      var dup = parameters.dupTolerance;
+
+      output.readDebug = { reads: reads, corr: corr, nl: nl };
+
+      // 1. Determine the reads per library
+      output.readPerLibrary = (reads * corr) / nl;
+
+      // 2. Calculate the effective coverage.
+      var cpl = (( out / size ) - (( out / size ) * dup )) / nl;
+
+      // Debug
+      output.coverageDebug = {
+        out: out,
+        size: size,
+        dup: dup,
+        nl: nl,
+        ideal: out / size,
+        dupTol: (out / size) * dup,
+        uniqReads: ( out / size ) - (( out / size ) * dup),
+        cpl: cpl
+      };
+
+      output.coverage = cpl;
+
+      // Provies a T/F for the current coverae.
+      this.valid = false;
+
+      if (parameters.applicationData) {
+        var applicationReads = self.convertToGb(parameters.applicationData.requiredReads);
+        // Provies a T/F for the current coverae.
+        this.valid = output.readPerLibrary >= applicationReads;
+      }
+
+      this.output = output;
+    };
+
+    // Init the data in the class.
+    this.init(data);
+
+    // For the process to run.
+    this.process();
+  }
+
+  return Sequencing;
+});
 
 app.directive('coverageTable', function() {
   return {
@@ -78857,25 +78914,22 @@ app.directive('calculatorForm', function() {
       <form name="form" novalidate>
         <div class="row">
           <div class="col-md-5 mb-3">
-            What are you sequencing?
-          </div>
-          <div class="col-md-3 mb-3">
-            <select class="form-control" id="type" required name="type" aria-label="Type" ng-model="parameters.type" aria-describedby="Type">
-              <option value="">Select Type</option>
-              <option value="rna">Transcriptome</option>
-              <option value="dna">Genome</option>
-            </select>
-            <i ng-if="parameters.genomeSize">{{ parameters.genomeSize }} Gb</i>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5 mb-3">
             What material are you sequencing?
           </div>
           <div class="col-md-3 mb-3">
             <select class="form-control" id="material" required name="material" aria-label="Material" ng-model="parameters.material" aria-describedby="Material">
-              <option value="">Select Material</option>
               <option value="{{ key }}" ng-repeat="(key, item) in material | groupBy:'key'">{{ key | titlecase }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            What are you sequencing?
+          </div>
+          <div class="col-md-3 mb-3">
+            <select class="form-control" id="type" required name="type" aria-label="Type" ng-model="parameters.type" aria-describedby="Type">
+              <option value="rna">Transcriptome</option>
+              <option value="dna">Genome</option>
             </select>
           </div>
         </div>
@@ -78889,6 +78943,7 @@ app.directive('calculatorForm', function() {
             </div>
           </div>
         </div>
+        <!--
         <div class="row">
           <div class="col-md-5 mb-3">
             What coverage do you need?
@@ -78910,13 +78965,13 @@ app.directive('calculatorForm', function() {
             </div>
           </div>
         </div>
+        -->
         <div class="row">
           <div class="col-md-5 mb-3">
-            What application are you performing?
+            What application are you performing? {{ parameters.application }}
           </div>
           <div class="col-md-6 mb-3">
             <select class="form-control custom-select" required id="application" name="application" ng-model="parameters.application" aria-label="Genome Size (Gb)" aria-describedby="genome">
-              <option value="">Select Application</option>
               <option ng-if="item.type === parameters.type" value="{{ item.key }}" ng-repeat="item in applications">
                 {{ item.title }} (min reads: {{ item.requiredReads }}{{ item.units }})
               </option>
@@ -78997,8 +79052,9 @@ app.directive('results', function() {
     template: `
     <div ng-if="results">
       <div class="alert alert-danger" ng-if="results.length == 0">
-        Sorry, there are no instruments that will provide the
-        coverage you require for this application.
+        There are no instruments that will provide the reads per library you
+        require for this application. Try reducing the number of libraries
+        you want to multiplex.
       </div>
       <div class="table-responsive-sm" ng-if="results.length > 0" style="height: 400px; overflow: scroll;">
         <table class="table table-striped table-responsive">
@@ -79008,7 +79064,7 @@ app.directive('results', function() {
             <th width="15%" style="text-align: center" align="center">Total Clusters Possible</th>
             <th width="15%" style="text-align: center" align="center">Predicted Clusters per Library</th>
             <th width="15%" style="text-align: center" align="center">
-              Effective Coverage
+              Effective Coverage per Library
             </th>
             <th>
               &nbsp;
@@ -79019,7 +79075,7 @@ app.directive('results', function() {
               {{ i.data.instrument | instrumentName }}
             </td>
             <td>
-              {{ i.data.mode | modeName }}
+              {{ i.data.mode | modeName }} <span ng-if-"i.data.type">({{i.data.type }})</span>
             </td>
             <td align="center" title="Reads: {{ i.data.reads }}">
               {{ i.data.reads  }}
@@ -79028,7 +79084,7 @@ app.directive('results', function() {
               {{ i.output.readPerLibrary * 1000 | number: 3 }} M
             </td>
             <td align="center">
-              {{ i.output.coverage | number: 2 }}x
+              {{ i.output.coverage | coverage }}x
             </td>
             <td align="center">
               <button class="btn btn-outline-secondary" ng-click="resultDetail(i)">
@@ -79083,23 +79139,15 @@ app.directive('summary', function() {
 		}],
     template: `
       <p ng-if="parameters.summary" class="alert alert-secondary">
-        A pool of <b>{{ parameters.numOfLibraries }}</b> libraries for <b>{{ parameters.applicationData.title }}</b>
-        with a desired coverage of <b>{{ parameters.coverage }}x/library</b>
-        needs approx. <b>{{ parameters.summary.outputNeeded }} Gb</b> of data.
+        A pool of <b>{{ parameters.numOfLibraries }}</b> libraries for <b>{{ parameters.applicationData.title }}</b>.
         <span ng-if="parameters.applicationData">
-          This application using <b>{{ parameters.material | titlecase }} {{ parameters.type | typeName | titlecase }}</b> requires <b>{{ parameters.applicationData.requiredReads }} reads</b> per library.
-        </span>
-        <br>
-        <br>
-        <span ng-if="parameters.summary.numOfAvlSolutions > 0">
-          There are <b>{{ parameters.summary.numOfAvlSolutions }}</b> possible sequencing solutions
-          which may meet you experimental needs. These options are sort by the 'effective coverage'
-          to best help you find the minimum required.
+          <i>(Requires <b>{{ parameters.applicationData.requiredReads }} reads</b> per library.)</i>
         </span>
 
-        <span ng-if="parameters.summary.numOfAvlSolutions == 0">
-          There are <b>no</b> sequencing solutions. You need to either adjust the
-          number of samples in the pool or the coverage you need per library.
+        <span ng-if="parameters.summary.numOfAvlSolutions > 0">
+          <br><br>
+          There are <b>{{ parameters.summary.numOfAvlSolutions }}</b> possible sequencing solutions
+          which may meet you experimental needs.
         </span>
       </p>
     `
@@ -79109,37 +79157,43 @@ app.directive('summary', function() {
 app.directive('calculatorWorkspace', function() {
   return {
     scope: false,
-    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'material', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, material, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
+    controller: [ '$rootScope', '$scope', '$stateParams', '$utils', 'material', 'applications', 'instruments', 'Sequence', '$timeout', 'angularKeenClient', function( $rootScope, $scope, $stateParams, $utils, materials, applications, instrumentList, Sequence, $timeout, angularKeenClient) {
 
       // Set the parameters.
       $scope.parameters = {
         type: $stateParams.type || 'rna',
         material: $stateParams.material || 'mouse',
+        application: $stateParams.application || 'whole-genome',
+        numOfLibraries: parseInt($stateParams.libraries || 40),
         genomeSize: 0,
-        coverage: '30',
-        numOfLibraries: 40,
         labReadAdjustment: 1,
         dupTolerance: 0.2,
         summary: null
       }
 
-      var getMaterial = _.find(material, { key: $scope.parameters.material });
-      if (getMaterial) {
-        $scope.parameters.genomeSize = $utils.toGb(getMaterial[$scope.parameters.type]);
+      var getMaterial = function(material, type) {
+        var sel = _.find(materials, { key: material });
+        if (sel) {
+          $scope.parameters.genomeSize = $utils.toGb(sel[type]);
+        }
       }
+
+      var getApplication = function(application, type) {
+        var appData = _.find(applications, { key: application });
+        if (appData) {
+          $scope.parameters.applicationData = appData;
+        } else {
+          $scope.parameters.application = type === 'rna' ? 'mRNA-Seq': 'whole-genome';
+          $scope.parameters.applicationData =  _.find(applications, { key: application });
+        }
+
+        return $scope.parameters.applicationData;
+      }
+
+      getMaterial($scope.parameters.material, $scope.parameters.type);
+      getApplication($scope.parameters.application, $scope.parameters.type);
 
       // --------------------------------------------
-
-      // Check if we have an application. If not defined, then lets
-      // force them back to whole genome
-      var appData = _.find(applications, { key: $scope.parameters.application });
-
-      if (appData) {
-        $scope.parameters.applicationData = appData;
-      } else {
-        $scope.parameters.application = $scope.parameters.type === 'rna' ? 'mRNA-Seq': 'whole-genome';
-        $scope.parameters.applicationData =  _.find(applications, { key: $scope.parameters.application });
-      }
 
 		  var instruments = [];
 		  _.each(instrumentList, function(instrument, key) {
@@ -79188,15 +79242,12 @@ app.directive('calculatorWorkspace', function() {
       // the function to run.
 		  $scope.$watch('parameters', function(newVal, oldVal) {
 		    if (newVal !== oldVal) {
-          newVal.applicationData = _.find(applications, { key: newVal.application });
-          // newVal.materialData = _.find(material, { key: newVal.material });
+          newVal.applicationData = getApplication(newVal.application, newVal.type) ;
 
-          var d = _.find(material, { key: newVal });
+          var d = _.find(material, { key: newVal.material });
           var type = newVal.type;
-          if (d)
-            newVal.genomeSize = $utils.toGb(d[type]);
+          if (d) newVal.genomeSize = $utils.toGb(d[type]);
 
-          console.log(newVal);
 		      $scope.calculate(newVal);
 		    }
 		  }, true);
@@ -79207,14 +79258,11 @@ app.directive('calculatorWorkspace', function() {
     }],
     template: `
       <h2 class="mt-4 d-none d-md-block">
-        NGS Coverage Calculator
+        Library Coverage Calculator
       </h2>
 
       <p class="lead mt-2">
-        This calculator provides tools to determine the coverage needed
-        for pool libraries for different applications on Illumina instruments.
-        It provides a summary and a list of instruments and modes capable of
-        providing the require per library reads.
+        Calculate the number of libraries you can multiplex for a given application at a desired coverage.
       </p>
 
       <calculator-form parameters="parameters"></calculator-form>
@@ -79230,89 +79278,21 @@ app.directive('calculatorWorkspace', function() {
   }
 })
 
-app.factory('Sequence', function() {
-
-  // Simple class to manage the calculator.
-  var Sequencing = function(data, parameters) {
-    this.data = data;
-    this.ref = {};
-
-    // This function will convert a given value to Gb.
-    this.convertToGb = function(val) {
-      var t = val.split(' ');
-      if (t.length === 1) return parseFloat(t[0]);
-      if (t.length === 2) {
-        var u = t[1];
-        if (t[1].toLowerCase().trim() === 'gb') return parseFloat(t[0]);
-        if (t[1].toLowerCase().trim() === 'm') return parseFloat(t[0]) / 1000;
-      }
-    };
-
-    this.init = function(data) {
-      // This will read all the data and convert to
-      this.ref.reads = this.convertToGb(data.reads);
-      this.ref.output = this.convertToGb(data.output);
-    };
-
-    this.process = function() {
-      var self = this;
-      var output = {}
-
-      var size = parameters.genomeSize;
-      var nl = parameters.numOfLibraries;
-      var out = this.ref.output;
-      var reads = this.ref.reads;
-      var corr = parameters.labReadAdjustment;
-      var dup = parameters.dupTolerance;
-
-      // 1. Determine the reads per library
-      output.readDebug = { reads: reads, corr: corr, nl: nl };
-      output.readPerLibrary = (reads * corr) / nl;
-
-      // 2. Calculate the effective coverage.
-      var cpl = ((out / size ) - ((out / size) * dup)) / nl;
-
-      // Debug
-      output.coverageDebug = {
-        out: out,
-        size: size,
-        dup: dup,
-        nl: nl,
-        ideal: out / size,
-        dupTol: (out / size) * dup,
-        uniqReads: (out / size ) - ((out / size) * dup),
-        cpl: cpl
-      };
-
-      output.coverage = cpl;
-
-      // Provies a T/F for the current coverae.
-      this.valid = false;
-
-      if (parameters.applicationData) {
-        var applicationReads = self.convertToGb(parameters.applicationData.requiredReads);
-        // Provies a T/F for the current coverae.
-        this.valid = output.readPerLibrary <= applicationReads;
-      }
-
-      this.output = output;
-    };
-
-    // Init the data in the class.
-    this.init(data);
-
-    // For the process to run.
-    this.process();
-  }
-
-  return Sequencing;
-});
-
 app.filter('GbtoMb', function() {
   return function(input, uppercase) {
     return (input * 1000) + ' M'
   }
 });
+
+app.filter('coverage', [ '$filter', function($filter) {
+  return function(input) {
+    if (input < 1) {
+      return 'approx. ' + input;
+    } else {
+      return 'approx. ' + $filter('number')(input, 0);
+    }
+  }
+}]);
 
 app.filter('instrumentName', function() {
   return function(input, uppercase) {
@@ -80133,11 +80113,11 @@ app
 	$locationProvider.hashPrefix('!');
 
 	// Set the default path.
-	$urlRouterProvider.otherwise('/calculator/dna/human/whole-genome');
+	$urlRouterProvider.otherwise('/calculator/dna/human/whole-genome/10');
 
 	$stateProvider
 		.state('calculator', {
-			url: '/calculator/:type/:material/:application',
+			url: '/calculator/:type/:material/:application/:libraries',
 			controller: ['$scope', '$state', '$stateParams', function($scope, $state, $stateParams) {
 
 				// When the parameters change, we need to update the route.
@@ -80146,7 +80126,8 @@ app
 					$state.go('calculator', {
 						type: parameters.type || 'dna',
 						material: parameters.material || 'human',
-						application: parameters.application || ''
+						application: parameters.application || 'whole-genome',
+						libraries: parseInt(parameters.numOfLibraries || 10)
 					}, { notify: true });
 
 				});

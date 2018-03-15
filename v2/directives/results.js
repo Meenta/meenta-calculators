@@ -25,8 +25,9 @@ app.directive('results', function() {
     template: `
     <div ng-if="results">
       <div class="alert alert-danger" ng-if="results.length == 0">
-        Sorry, there are no instruments that will provide the
-        coverage you require for this application.
+        There are no instruments that will provide the reads per library you
+        require for this application. Try reducing the number of libraries
+        you want to multiplex.
       </div>
       <div class="table-responsive-sm" ng-if="results.length > 0" style="height: 400px; overflow: scroll;">
         <table class="table table-striped table-responsive">
@@ -36,7 +37,7 @@ app.directive('results', function() {
             <th width="15%" style="text-align: center" align="center">Total Clusters Possible</th>
             <th width="15%" style="text-align: center" align="center">Predicted Clusters per Library</th>
             <th width="15%" style="text-align: center" align="center">
-              Effective Coverage
+              Effective Coverage per Library
             </th>
             <th>
               &nbsp;
@@ -47,7 +48,7 @@ app.directive('results', function() {
               {{ i.data.instrument | instrumentName }}
             </td>
             <td>
-              {{ i.data.mode | modeName }}
+              {{ i.data.mode | modeName }} <span ng-if-"i.data.type">({{i.data.type }})</span>
             </td>
             <td align="center" title="Reads: {{ i.data.reads }}">
               {{ i.data.reads  }}
@@ -56,7 +57,7 @@ app.directive('results', function() {
               {{ i.output.readPerLibrary * 1000 | number: 3 }} M
             </td>
             <td align="center">
-              {{ i.output.coverage | number: 2 }}x
+              {{ i.output.coverage | coverage }}x
             </td>
             <td align="center">
               <button class="btn btn-outline-secondary" ng-click="resultDetail(i)">

@@ -16,25 +16,22 @@ app.directive('calculatorForm', function() {
       <form name="form" novalidate>
         <div class="row">
           <div class="col-md-5 mb-3">
-            What are you sequencing?
-          </div>
-          <div class="col-md-3 mb-3">
-            <select class="form-control" id="type" required name="type" aria-label="Type" ng-model="parameters.type" aria-describedby="Type">
-              <option value="">Select Type</option>
-              <option value="rna">Transcriptome</option>
-              <option value="dna">Genome</option>
-            </select>
-            <i ng-if="parameters.genomeSize">{{ parameters.genomeSize }} Gb</i>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5 mb-3">
             What material are you sequencing?
           </div>
           <div class="col-md-3 mb-3">
             <select class="form-control" id="material" required name="material" aria-label="Material" ng-model="parameters.material" aria-describedby="Material">
-              <option value="">Select Material</option>
               <option value="{{ key }}" ng-repeat="(key, item) in material | groupBy:'key'">{{ key | titlecase }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            What are you sequencing?
+          </div>
+          <div class="col-md-3 mb-3">
+            <select class="form-control" id="type" required name="type" aria-label="Type" ng-model="parameters.type" aria-describedby="Type">
+              <option value="rna">Transcriptome</option>
+              <option value="dna">Genome</option>
             </select>
           </div>
         </div>
@@ -48,6 +45,7 @@ app.directive('calculatorForm', function() {
             </div>
           </div>
         </div>
+        <!--
         <div class="row">
           <div class="col-md-5 mb-3">
             What coverage do you need?
@@ -69,13 +67,13 @@ app.directive('calculatorForm', function() {
             </div>
           </div>
         </div>
+        -->
         <div class="row">
           <div class="col-md-5 mb-3">
-            What application are you performing?
+            What application are you performing? {{ parameters.application }}
           </div>
           <div class="col-md-6 mb-3">
             <select class="form-control custom-select" required id="application" name="application" ng-model="parameters.application" aria-label="Genome Size (Gb)" aria-describedby="genome">
-              <option value="">Select Application</option>
               <option ng-if="item.type === parameters.type" value="{{ item.key }}" ng-repeat="item in applications">
                 {{ item.title }} (min reads: {{ item.requiredReads }}{{ item.units }})
               </option>
